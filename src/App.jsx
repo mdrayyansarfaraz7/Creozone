@@ -1,5 +1,6 @@
 import './App.css';
 import Advertisement from './components/Advertisement';
+import Famous from './components/Famous';
 import Feature from './components/Feature';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -49,6 +50,7 @@ function App() {
     <Advertisement/>
     <Feature/>
     <ShowcaseSection/>
+    <Famous/>
     <Footer/>
     </>
 

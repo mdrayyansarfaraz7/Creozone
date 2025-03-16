@@ -12,6 +12,7 @@
   "dependencies": {
     "@tabler/icons-react": "^3.31.0",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.482.0",
     "motion": "^12.4.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
