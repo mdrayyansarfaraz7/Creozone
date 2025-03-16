@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Oswald:wght@400;700&display=swap');
+
+.swiper {
+  transition: all 0.5s ease-in-out;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+.background-transition {
+  transition: background-image 0.8s ease-in-out;
+}
