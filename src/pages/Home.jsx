@@ -47,6 +47,7 @@ function Home() {
     <Feature/>
     <ShowcaseSection/>
     <Famous/>
+
 </>
   )
 }
