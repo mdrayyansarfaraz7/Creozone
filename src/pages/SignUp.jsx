@@ -1,7 +1,40 @@
-import React from 'react';
+import React, {  useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import axios from 'axios'
+import {useNavigate} from 'react-router-dom';
+
 
 function SignUp() {
+  const [formData,setFormData]=useState({
+    username:'',
+    email:'',
+    password:''
+  });
+
+  const handelChange=(e)=>{
+    const {name,value}=e.target;
+    setFormData((prev)=>({
+      ...prev,
+      [name]:value
+    }))
+  }
+
+let navigate=useNavigate();
+
+  const handelSubmit=async(e)=>{
+    e.preventDefault();
+    try{
+      const res=await axios.post('http://localhost:8080/api/auth/signup',formData);
+      if (res.status===200){
+        console.log(res.data);
+        navigate('/');
+      }
+    }
+    catch(err){
+      console.log("Error Encountered:",err);
+    }
+  }
+
   return (
     <div className="h-screen flex flex-col lg:flex-row relative">
 
@@ -30,20 +63,39 @@ function SignUp() {
         </div>
 
         {/* Form Fields */}
-        <form className="w-full space-y-4">
+        <form className="w-full space-y-4" onSubmit={handelSubmit}>
           <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">First name*</label>
-            <input type="text" placeholder="Enter your first name" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            <label className="block text-sm font-medium mb-1 text-rose-600">Username *</label>
+            <input 
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handelChange}
+             placeholder="Enter your first name"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">Email*</label>
-            <input type="email" placeholder="Enter your email" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            <label className="block text-sm font-medium mb-1 text-rose-600">Email *</label>
+            <input 
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handelChange}
+             placeholder="Enter your email"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
           </div>
+    
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">Password*</label>
-            <input type="password" placeholder="Create a password" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            <label className="block text-sm font-medium mb-1 text-rose-600">Password *</label>
+            <input 
+            name="password"
+            value={formData.password}
+            onChange={handelChange}
+            type="password"
+             placeholder="Create a password"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
             <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters.</p>
           </div>
 
