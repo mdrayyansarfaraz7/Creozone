@@ -1,22 +1,35 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import Home from './pages/Home.jsx'
-import Login from './pages/Login.jsx'
-import SignUp from './pages/SignUp.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom';
+import App from './App.jsx';
+import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp.jsx';
+import RedirectIfAuth from './components/RedirectIfAuth.jsx';
 
-let router=createBrowserRouter(createRoutesFromElements(<>
-  <Route path='/' element={<App/>}>
-    <Route path='' element={<Home/>}/>
-  </Route>
-  <Route path='/login' element={<Login/>}/>
-  <Route path='/signup' element={<SignUp/>}/>
-</>))
+
+let router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<App />}>
+        <Route path="" element={<Home/>} />
+      </Route>
+      <Route path="/login" element={        
+        <RedirectIfAuth>
+      <Login/>
+        </RedirectIfAuth>} />
+      <Route path="/signup" element={
+        <RedirectIfAuth>
+      <SignUp/>
+        </RedirectIfAuth>
+        } />
+    </>
+  )
+);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
-  </StrictMode>,
-)
+    <RouterProvider router={router} />
+  </StrictMode>
+);

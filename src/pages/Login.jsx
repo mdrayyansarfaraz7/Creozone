@@ -1,18 +1,48 @@
-import React from 'react'
-import { FaStar } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react'
+import { useAuthStore } from '../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from 'lucide-react';
 
 function Login() {
+  const {checkAuth,login,isLoading } = useAuthStore();
+      useEffect(()=>{
+        checkAuth();
+      },[checkAuth])
+
+const [formData,setFormData]=useState({
+  email:'',
+  password:''
+});
+
+const handelChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value
+  }))
+}
+
+const naviagte = useNavigate();
+
+
+const handelSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await login(formData);
+    naviagte('/');
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
   return (
-    <div className="h-screen flex flex-col lg:flex-row-reverse relative">
-    
-          {/* Logo (Always Top-Right) */}
+    <div className="h-screen flex flex-col lg:flex-row-reverse relative"> 
           <img
             src="/Logo.png"
             alt="Logo"
             className="absolute top-4 right-4 h-10 z-10"
           />
-    
-          {/* LEFT: Form Section */}
           <div className="w-full lg:w-[40%] h-full bg-white flex flex-col justify-center items-center px-8 lg:px-16">
             <h2 className="text-3xl lg:text-4xl text-rose-600 font-semibold mb-6 mt-16 lg:mt-0">Login</h2>
     
@@ -30,22 +60,29 @@ function Login() {
             </div>
     
             {/* Form Fields */}
-            <form className="w-full space-y-4">
+            <form className="w-full space-y-4" onSubmit={handelSubmit}>
     
               <div>
                 <label className="block text-sm font-medium mb-1 text-rose-600">Email*</label>
-                <input type="email" placeholder="Enter your Email" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+                <input type="email" name='email' value={formData.email} onChange={handelChange} placeholder="Enter your Email" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
               </div>
     
               <div>
                 <label className="block text-sm font-medium mb-1 text-rose-600">Password*</label>
-                <input type="password" placeholder="Enter Password" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+                <input type="password" name='password' value={formData.password} onChange={handelChange} placeholder="Enter Password" className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
                
               </div>
     
-              <button type="submit" className="w-full bg-rose-600 text-white py-2 rounded-md hover:bg-rose-700 transition">
-                Login
-              </button>
+              <button
+            type="submit"
+            className="w-full bg-rose-600 text-white py-2 rounded-md hover:bg-rose-700 transition flex justify-center items-center"
+          >
+            {isLoading ? (
+              <Loader className="w-5 h-5 animate-spin" />
+            ) : (
+              <>Login</>
+            )}
+          </button>
             </form>
     
             {/* Footer link */}

@@ -14,6 +14,8 @@ const slideData = [
   ];
 
 function Home() {
+  const token = document.cookie;
+console.log(token); 
     const [previousImage, setPreviousImage] = useState(slideData[slideData.length - 1].src);
 
     const handleSlideChange = (currentIndex) => {

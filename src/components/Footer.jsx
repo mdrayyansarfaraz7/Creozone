@@ -3,7 +3,7 @@ import { FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-black py-10">
+    <footer className="bg-white text-black py-10 bottom-[-1]">
       <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
           <img src='/Logo.png' alt="Creozone Logo" className="h-12 mb-4" />
