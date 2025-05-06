@@ -1,50 +1,48 @@
-import React, { useState } from 'react'
 import Famous from '../components/Famous';
 import ShowcaseSection from '../components/ShowcaseSection';
 import Feature from '../components/Feature';
 import Advertisement from '../components/Advertisement';
-import { Carousel } from '../components/ui/carousel';
-
-
-const slideData = [
-    { title: "Redefine Design Together", src: "/bg2.jpeg" },
-    { title: "Inspire. Collaborate. Create.", src: "/bg3.jpeg" },
-    { title: "Your Canvas, Our Community", src: "/bg4.jpeg" },
-    { title: "Design Beyond Limits", src: "/bg.jpeg" },
-  ];
+import HeroImg from '../components/HeroImg';
 
 function Home() {
-  const token = document.cookie;
-console.log(token); 
-    const [previousImage, setPreviousImage] = useState(slideData[slideData.length - 1].src);
-
-    const handleSlideChange = (currentIndex) => {
-      const previousIndex = (currentIndex - 1 + slideData.length) % slideData.length;
-      setPreviousImage(slideData[previousIndex].src);
-    };
   return (
 <>
-<div
-      className="h-[120vh] md:h-screen w-full bg-cover bg-center opacity-85 background-transition"
-      style={{ backgroundImage: `url('${previousImage}')` }}
-    >
-      
-      <div className='flex flex-col lg:flex-row items-center justify-center gap-8 px-6 lg:px-12 py-12'>
-        <div className='w-full lg:w-1/2 text-center lg:text-left'>
-          <p className='font-lato text-white text-2xl lg:text-4xl mb-2'>Welcome to</p>
-          <h1 className='font-oswald text-white text-5xl lg:text-8xl'>
-            Your Gallery of <br className='hidden lg:block'/> Creations
-          </h1>
-          <p className='mt-6 lg:mt-10 font-lato text-white text-lg lg:text-2xl'>
-            The platform for designers to create, collaborate seamlessly, and build on ideas —
-            transforming visions into impactful designs that inspire and innovate.
-          </p>
-        </div>
-        <div className='cursor-pointer w-full lg:w-2/5 m-10 p-4 h-[380px] md:h-[500px] lg:h-[590px] overflow-hidden rounded-lg shadow-lg bg-white/20'>
-          <Carousel slides={slideData} onSlideChange={handleSlideChange} />
-        </div>
+<div className="h-[100vh] w-full flex items-center bg-white relative overflow-hidden">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-10 px-6 md:px-12 py-12 max-w-[1400px] mx-auto w-full">
+ 
+    <div className="w-full lg:w-1/2 text-center lg:text-left z-10">
+      <p className="font-lato text-gray-700 text-2xl lg:text-3xl mb-2">
+        Welcome to
+      </p>
+      <h1 className="font-oswald text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight">
+        Your Gallery of <br className="hidden lg:block" />
+        <span className="text-rose-600">Creations</span>
+      </h1>
+      <p className="mt-6 text-base md:text-lg text-gray-500 font-lato max-w-xl mx-auto lg:mx-0">
+        The platform for designers to create, collaborate seamlessly, and build on ideas — transforming
+        visions into impactful designs that inspire and innovate.
+      </p>
+
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+        <button className="bg-rose-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-rose-700 transition-all">
+          Explore Designs
+        </button>
+        <button className="border border-rose-600 text-rose-600 px-6 py-3 rounded-full font-semibold hover:bg-rose-50 transition-all">
+          Contribute Yours
+        </button>
       </div>
     </div>
+
+    
+    <div className="w-full lg:w-1/2 relative items-center justify-center hidden md:flex ">
+  <HeroImg />
+</div>
+  </div>
+
+ 
+  <div className="absolute -top-10 -left-10 w-[300px] h-[300px] bg-rose-100 opacity-30 rounded-full blur-3xl z-0" />
+</div>
+
     <Advertisement/>
     <Feature/>
     <ShowcaseSection/>

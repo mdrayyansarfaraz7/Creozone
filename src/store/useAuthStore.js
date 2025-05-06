@@ -56,7 +56,6 @@ export const useAuthStore=create((set)=>({
                 isLoading: false,
             });
             
-            console.log("Logout successful. Zustand updated.");
         } catch (error) {
             console.log("Logout error:", error);
             set({
