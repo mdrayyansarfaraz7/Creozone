@@ -9,7 +9,7 @@ function Feature() {
           <img src="/styleChain.png" alt="StyleChain" className='w-full h-auto cursor-pointer'/>
         </div>
         <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950'>
+          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
             Introducing <span className='text-rose-600'>StyleChain</span>
           </h1>
           <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
@@ -20,13 +20,12 @@ function Feature() {
         </div>
       </div>
 
-      {/* OutLooks Feature */}
       <div className='flex flex-col md:flex-row items-center justify-center gap-8'>
         <div className='w-full md:w-1/3'>
           <img src="/outlooks.png" alt="OutLooks" className='w-full h-auto cursor-pointer'/>
         </div>
         <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950'>
+          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
             Explore <span className='text-rose-600'>OutLooks</span>
           </h1>
           <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
@@ -43,7 +42,7 @@ function Feature() {
           <img src="/refinements.png" alt="Refinements" className='w-full h-auto cursor-pointer'/>
         </div>
         <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950'>
+          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
             Add <span className='text-rose-600'>Refinements</span>
           </h1>
           <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
