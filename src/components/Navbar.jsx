@@ -38,7 +38,10 @@ export default function Navbar() {
                                     className="w-10 h-10 rounded-full object-cover"
                                 />
                             ) : (
+                                <Link to={`/profile/${user.username}`}>
                                 <FaUserCircle className="text-4xl text-gray-300" />
+                                </Link>
+                                
                             )}
                             <button
                                 onClick={handleLogout}

@@ -7,6 +7,8 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import RedirectIfAuth from './components/RedirectIfAuth.jsx';
+import Profile from './pages/Profile.jsx';
+import RedirectIfNotAuth from './components/RedirectIfNotAuth.jsx';
 
 
 let router = createBrowserRouter(
@@ -23,6 +25,11 @@ let router = createBrowserRouter(
         <RedirectIfAuth>
       <SignUp/>
         </RedirectIfAuth>
+        } />
+        <Route path="/profile/:username" element={
+        <RedirectIfNotAuth>
+      <Profile/>
+        </RedirectIfNotAuth>
         } />
     </>
   )

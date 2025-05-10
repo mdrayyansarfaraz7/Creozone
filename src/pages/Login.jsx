@@ -93,7 +93,7 @@ const handelSubmit = async (e) => {
           </div>
     
           {/* RIGHT: Image and Quote (Hidden on md and below) */}
-          <div className="hidden lg:block w-[60%] h-full bg-[url('/bg3.jpeg')] bg-cover bg-center relative">
+          <div className="hidden lg:block w-[60%] h-full bg-[url('/Main.jpeg')] bg-cover bg-center relative">
     
             {/* Heading */}
             <div className="absolute bottom-24 xl:bottom-20 2xl:bottom-24 px-6 lg:px-10 text-white max-w-[80%]">
