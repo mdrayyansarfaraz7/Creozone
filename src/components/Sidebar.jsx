@@ -28,7 +28,7 @@ const Sidebar = ({ username }) => {
     return (
         <aside className="fixed top-0 left-0 h-screen w-14 md:w-52 bg-base-200 shadow-md flex flex-col justify-between p-3 z-10">
             <div>
-                <img src="/Logo Icon.png" alt="" className="h-10" />
+                <img src="/Logo Icon.png" alt="" className="h-10 mb-8" />
                 <ul className="space-y-2">
                     {navItems.map((item, i) => (
                         <li
