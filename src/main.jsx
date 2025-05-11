@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp.jsx';
 import RedirectIfAuth from './components/RedirectIfAuth.jsx';
 import Profile from './pages/Profile.jsx';
 import RedirectIfNotAuth from './components/RedirectIfNotAuth.jsx';
+import EditProfileForm from './pages/EditProfileForm.jsx';
 
 
 let router = createBrowserRouter(
@@ -27,6 +28,7 @@ let router = createBrowserRouter(
         </RedirectIfAuth>
         } />
         <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile/update/:username" element={<EditProfileForm/>}/>
     </>
   )
 );
