@@ -29,7 +29,7 @@ const handelSubmit = async (e) => {
   e.preventDefault();
   try {
     await login(formData);
-    naviagte('/');
+    naviagte('/profile');
   }
   catch (err) {
     console.log(err);

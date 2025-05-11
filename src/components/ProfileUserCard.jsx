@@ -1,17 +1,17 @@
 
 
-function ProfileUserCard({username,email}) {
+function ProfileUserCard({username,email,avatarURL="/male.png"}) {
   return (
 <div className="w-full md:w-[340px] h-[450px] rounded-md bg-gray-100 shadow-md p-5 flex flex-col items-center">
   <div className='h-56 w-56 p-3 rounded-full border border-rose-500 flex items-center justify-center'>
-    <img src="/female.png" alt="Profile" className="h-48 w-48 rounded-full" />
+    <img src={avatarURL} alt="Profile" className="h-48 w-48 rounded-full" />
   </div>
 
   <h1 className="text-xl font-lato font-bold">{username}</h1>
   <p className="text-sm text-gray-500 font-lato">{email}</p>
   <p className="text-sm text-gray-700 mt-1 font-lato">Visual Designer</p>
 
-  <button className="mt-3 px-6 py-1 text-sm bg-rose-500 text-white rounded-full hover:bg-rose-700 transition">
+  <button className="mt-3 px-6 py-1 w-full text-sm bg-rose-500 text-white rounded-md  hover:bg-rose-700 transition">
     Edit Profile
   </button>
 

@@ -31,8 +31,9 @@ const StashCard = ({thumb,title,category,desc,noCrea,StyleChain}) => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
             <p className="text-lg font-lato font-normal text-slate-600 mb-1 sm:mb-0">Style Chain:</p>
             <div className="flex items-center space-x-[-10px]">
-                {StyleChain.map((url)=>(
+                {StyleChain.map((url,i)=>(
               <img
+              key={i}
                 src={url}
                 alt="User 1"
                 className="w-8 h-8 rounded-full border-2 border-white"

@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { FaUserCircle } from "react-icons/fa";
 
-
-
 export default function Navbar() {
     const navigate=useNavigate();
         const { user,logout} = useAuthStore();
@@ -31,18 +29,13 @@ export default function Navbar() {
                 <div className="flex gap-4 font-lato">
                     {user ? (
                         <div className="flex items-center gap-3">
-                            {user.avatar ? (
+                                <Link to={`/profile/`}>
                                 <img
-                                    src={user.avatar}
+                                    src={user.avatar ||'/male.png'}
                                     alt="User Avatar"
-                                    className="w-10 h-10 rounded-full object-cover"
+                                    className="w-12 h-12 rounded-full object-cover"
                                 />
-                            ) : (
-                                <Link to={`/profile/${user.username}`}>
-                                <FaUserCircle className="text-4xl text-gray-300" />
                                 </Link>
-                                
-                            )}
                             <button
                                 onClick={handleLogout}
                                 className="bg-white text-rose-600 border border-rose-600 px-3 py-1 rounded-sm hover:bg-rose-600 hover:text-white transition-all"

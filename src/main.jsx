@@ -26,10 +26,13 @@ let router = createBrowserRouter(
       <SignUp/>
         </RedirectIfAuth>
         } />
-        <Route path="/profile/:username" element={
+        <Route path="/profile" element={
         <RedirectIfNotAuth>
       <Profile/>
         </RedirectIfNotAuth>
+        } />
+        <Route path="/profile/:username" element={
+      <Profile />
         } />
     </>
   )

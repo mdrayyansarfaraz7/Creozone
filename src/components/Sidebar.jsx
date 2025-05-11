@@ -51,7 +51,7 @@ const Sidebar = ({ username }) => {
                 <label tabIndex={0} className="btn btn-ghost w-full justify-between p-2">
                     <div className="flex items-center gap-2">
                         <EllipsisVertical className="text-4xl md:hidden"/>
-                        <img src="/female.png" className="hidden md:block md:w-8 md:h-8 rounded-full border" />
+                        <img src="/male.png" className="hidden md:block md:w-8 md:h-8 rounded-full border" />
                         <span className="text-xs font-lato hidden md:inline">{username}</span>
                         <ChevronDown size={16} className="hidden md:inline" />
                     </div>
