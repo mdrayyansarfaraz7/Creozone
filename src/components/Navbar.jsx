@@ -3,17 +3,17 @@ import { useAuthStore } from "../store/useAuthStore";
 import { FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
-    const navigate=useNavigate();
-        const { user,logout} = useAuthStore();
-        const handleLogout = async () => {
-            try {
-              await logout();
-          
-              navigate('/');
-            } catch (err) {
-              console.log(err);
-            }
-          };
+    const navigate = useNavigate();
+    const { user, logout } = useAuthStore();
+    const handleLogout = async () => {
+        try {
+            await logout();
+
+            navigate('/');
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white backdrop-blur-xl shadow-[0_4px_15px_rgba(0,0,0,0.15)] border border-white/40 rounded-xl px-6 py-3 z-50 w-[90%] md:w-[70%] cursor-pointer">
             <div className="flex justify-between items-center">
@@ -29,13 +29,14 @@ export default function Navbar() {
                 <div className="flex gap-4 font-lato">
                     {user ? (
                         <div className="flex items-center gap-3">
-                                <Link to={`/profile/`}>
+                            <Link to={`/profile/${user.username}`}>
                                 <img
-                                    src={user.avatar ||'/male.png'}
+                                    src={user.avatar ? user.avatar : (user.sex === "Male" ? '/male.png' : '/female.png')}
                                     alt="User Avatar"
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
-                                </Link>
+
+                            </Link>
                             <button
                                 onClick={handleLogout}
                                 className="bg-white text-rose-600 border border-rose-600 px-3 py-1 rounded-sm hover:bg-rose-600 hover:text-white transition-all"

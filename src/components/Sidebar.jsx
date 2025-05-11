@@ -12,8 +12,9 @@ import {
     Settings,
     EllipsisVertical,
 } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore";
 
-const Sidebar = ({ username }) => {
+const Sidebar = ({ username, isOwner }) => {
     const navItems = [
         { icon: <Home size={20} />, label: "Home" },
         { icon: <User size={20} />, label: "Profile" },
@@ -25,20 +26,19 @@ const Sidebar = ({ username }) => {
         { icon: <Layers size={20} />, label: "StyleChains" },
     ];
 
+    const filteredItems = isOwner ? navItems : navItems.slice(0, 4);
+     const { user} = useAuthStore();
     return (
         <aside className="fixed top-0 left-0 h-screen w-14 md:w-52 bg-base-200 shadow-md flex flex-col justify-between p-3 z-10">
             <div>
-                <img src="/Logo Icon.png" alt="" className="h-10 mb-8" />
+                <img src="/Logo Icon.png" alt="Logo" className="h-10 mb-8" />
                 <ul className="space-y-2">
-                    {navItems.map((item, i) => (
+                    {filteredItems.map((item, i) => (
                         <li
                             key={i}
-                            className="rounded-md hover:bg-transparent border border-white hover:border-rose-500  transition-all duration-200 "
+                            className="rounded-md hover:bg-transparent border border-white hover:border-rose-500 transition-all duration-200"
                         >
-                            <a
-                                className="flex items-center gap-3 font-lato text-sm px-2 py-2 
-                   text-black focus:outline-none active:bg-transparent cursor-pointer"
-                            >
+                            <a className="flex items-center gap-3 font-lato text-sm px-2 py-2 text-black cursor-pointer">
                                 <span className="text-gray-800">{item.icon}</span>
                                 <span className="hidden md:inline">{item.label}</span>
                             </a>
@@ -47,33 +47,34 @@ const Sidebar = ({ username }) => {
                 </ul>
             </div>
 
-            <div className="dropdown dropdown-top">
-                <label tabIndex={0} className="btn btn-ghost w-full justify-between p-2">
-                    <div className="flex items-center gap-2">
-                        <EllipsisVertical className="text-4xl md:hidden"/>
-                        <img src="/male.png" className="hidden md:block md:w-8 md:h-8 rounded-full border" />
-                        <span className="text-xs font-lato hidden md:inline">{username}</span>
-                        <ChevronDown size={16} className="hidden md:inline" />
-                    </div>
-                </label>
-                <ul tabIndex={0} className="dropdown-content menu menu-sm p-2 shadow bg-base-100 rounded-box w-40 mb-2">
-                    <li>
-                        <a
-                            className="flex items-center gap-2 text-sm px-2 py-1 hover:bg-transparent active:bg-transparent"
-                        >
-                            <Settings size={16} /> Settings
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="flex items-center gap-2 text-sm px-2 py-1 text-rose-500 hover:bg-transparent active:bg-transparent"
-                        >
-                            <LogOut size={16} /> Sign Out
-                        </a>
-                    </li>
-                </ul>
-
-            </div>
+            {isOwner && (
+                <div className="dropdown dropdown-top">
+                    <label tabIndex={0} className="btn btn-ghost w-full justify-between p-2">
+                        <div className="flex items-center gap-2">
+                            <EllipsisVertical className="text-4xl md:hidden" />
+                            <img
+                                    src={user.avatar ? user.avatar : (user.sex === "Male" ? '/male.png' : '/female.png')}
+                                    alt="User Avatar"
+                                    className="w-12 h-12 rounded-full object-cover"
+                                />
+                            <span className="text-xs font-lato hidden md:inline">{username}</span>
+                            <ChevronDown size={16} className="hidden md:inline" />
+                        </div>
+                    </label>
+                    <ul tabIndex={0} className="dropdown-content menu menu-sm p-2 shadow bg-base-100 rounded-box w-40 mb-2">
+                        <li>
+                            <a className="flex items-center gap-2 text-sm px-2 py-1 hover:bg-transparent">
+                                <Settings size={16} /> Settings
+                            </a>
+                        </li>
+                        <li>
+                            <a className="flex items-center gap-2 text-sm px-2 py-1 text-rose-500 hover:bg-transparent">
+                                <LogOut size={16} /> Sign Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            )}
         </aside>
     );
 };
