@@ -55,7 +55,7 @@ const Sidebar = ({ username, isOwner }) => {
                             <img
                                     src={user.avatar ? user.avatar : (user.sex === "Male" ? '/male.png' : '/female.png')}
                                     alt="User Avatar"
-                                    className="w-12 h-12 rounded-full object-cover"
+                                    className="w-8 h-8 rounded-full object-cover"
                                 />
                             <span className="text-xs font-lato hidden md:inline">{username}</span>
                             <ChevronDown size={16} className="hidden md:inline" />

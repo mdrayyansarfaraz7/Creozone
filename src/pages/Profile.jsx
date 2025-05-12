@@ -91,7 +91,7 @@ useEffect(() => {
 
       <div className="flex-1 ml-14 md:ml-52 p-3 overflow-y-auto h-screen flex flex-col gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
-          <ProfileUserCard username={profileData.username} email={profileData.email} avatarURL={profileData.avatar ? profileData.avatar : profileData.sex == "Male" ? "/male.png" : "/female.png"} designerType={profileData.designerType} isOwner={isOwner}/>
+         <ProfileUserCard profileData={profileData} isOwner={isOwner} />
 
           <div className="flex-1 w-full h-auto bg-gray-100 rounded-md shadow p-4 ">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -214,7 +214,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="mt-5">
-          <h2 className="text-5xl font-lato font-semibold text-gray-800 my-5">
+          <h2 className="text-5xl font-lato text-center md:text-left font-semibold text-gray-800 my-5">
             Popular <span className="text-rose-500">Stashes</span>
           </h2>
 
@@ -222,7 +222,7 @@ useEffect(() => {
             <div className="flex flex-col items-center justify-center px-5 py-10 bg-gray-100 rounded-xl shadow-lg">
 
 
-              <p className="text-3xl font-lato text-gray-800 mb-4">Looks like you haven't created any stashes yet.</p>
+              <p className="text-2xl font-lato text-gray-800 mb-4">Looks like you haven't created any stashes yet.</p>
               {
                 isOwner ? (<>
                   <p className="text-sm text-gray-500 mb-6">Start organizing your design ideas by creating a stash.</p>
@@ -251,13 +251,13 @@ useEffect(() => {
           )}
         </div>
         <div>
-          <h2 className="text-5xl font-lato font-semibold text-gray-800 my-5">
-            Creations
+          <h2 className="text-5xl text-center md:text-left  font-lato font-semibold text-gray-800 my-5">
+           Top <span className="text-rose-500">Creations</span>
           </h2>
           <div className="mt-3 bg-gray-100 w-full rounded-md h-auto">
             {profileData.creations.length === 0 ? (
               <div className="flex flex-col items-center justify-center px-5 py-12 bg-gray-100 rounded-xl shadow-inner text-center">
-                <p className="text-3xl font-lato text-gray-800 mb-4">No Creations Created!</p>
+                <p className="text-2xl font-lato text-gray-800 mb-4">No Creations Created!</p>
                 <p className="text-sm text-gray-500 ">
                   It seems like nothing has been crafted so far. 
                 </p>
