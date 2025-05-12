@@ -62,10 +62,11 @@ const handleSubmit = async (e) => {
 
   try {
     const form = new FormData();
-    form.append("sex", formData.sex);
+    form.append("sex", formData.sex || "Male");
+
     form.append("designerType", formData.designerType);
     formData.tools.forEach(tool => form.append("tools[]", tool)); 
-
+    console.log(form);
     if (selectedFile) {
       form.append("image", selectedFile); 
     }

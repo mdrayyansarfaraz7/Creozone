@@ -34,7 +34,7 @@ function SignUp() {
     e.preventDefault();
     try {
       await signup(formData);
-      naviagte('/profile');
+      naviagte(`/profile/${formData.username}`);
     }
     catch (err) {
       console.log(err);
