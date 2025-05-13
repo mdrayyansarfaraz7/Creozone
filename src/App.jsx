@@ -8,9 +8,10 @@ import { useEffect } from 'react';
 function App() {
   const {isAuthenticated,user,checkAuth}=useAuthStore();
 
-  useEffect(()=>{
-    checkAuth();
-  },[checkAuth])
+useEffect(() => {
+  console.log("Calling checkAuth...");
+  checkAuth();
+}, [checkAuth]);
 
   console.log("Is Authenticated",isAuthenticated);
   console.log(user)

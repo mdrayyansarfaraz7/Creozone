@@ -9,6 +9,8 @@ import SignUp from './pages/SignUp.jsx';
 import RedirectIfAuth from './components/RedirectIfAuth.jsx';
 import Profile from './pages/Profile.jsx';
 import RedirectIfNotAuth from './components/RedirectIfNotAuth.jsx';
+import CreateStashForm from './pages/CreateStashForm.jsx';
+
 
 
 
@@ -16,25 +18,27 @@ let router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />}>
-        <Route path="" element={<Home/>} />
+        <Route path="/create-stash" element={<RedirectIfNotAuth> <CreateStashForm /> </RedirectIfNotAuth> } />
+        <Route path="" element={<Home />} />
       </Route>
-      <Route path="/login" element={        
+      <Route path="/login" element={
         <RedirectIfAuth>
-      <Login/>
+          <Login />
         </RedirectIfAuth>} />
       <Route path="/signup" element={
         <RedirectIfAuth>
-      <SignUp/>
+          <SignUp />
         </RedirectIfAuth>
-        } />
-        <Route path="/profile/:username" element={<Profile />} />
-      
+      } />
+      <Route path="/profile/:username" element={<Profile />} />
+  
     </>
   )
 );
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
+
   </StrictMode>
 );

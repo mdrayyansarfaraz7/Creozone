@@ -4,7 +4,7 @@ import ProfileUserCard from "../components/ProfileUserCard";
 import Sidebar from "../components/Sidebar";
 import { Boxes } from "lucide-react";
 import StashCard from "../components/StashCard";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 
 import { useEffect, useState } from "react";
@@ -161,9 +161,12 @@ useEffect(() => {
                   {
                     isOwner ? (<>
                       <p className="text-sm text-gray-600 mt-1">Create your first stash to get started organizing your ideas.</p>
+                      <Link to={'/create-stash'}>
                       <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
                         + Create New Stash
                       </button>
+                      </Link>
+
                     </>) : (<></>)
                   }
 
@@ -227,9 +230,12 @@ useEffect(() => {
                 isOwner ? (<>
                   <p className="text-sm text-gray-500 mb-6">Start organizing your design ideas by creating a stash.</p>
 
-                  <button className="px-6 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
-                    + Create New Stash
-                  </button>
+                      <Link to={'/create-stash'}>
+                      <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
+                        + Create New Stash
+                      </button>
+                      </Link>
+
                 </>) : (<></>)
               }
 

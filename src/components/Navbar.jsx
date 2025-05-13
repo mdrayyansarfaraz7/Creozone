@@ -15,7 +15,8 @@ export default function Navbar() {
         }
     };
     return (
-        <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white backdrop-blur-xl shadow-[0_4px_15px_rgba(0,0,0,0.15)] border border-white/40 rounded-xl px-6 py-3 z-50 w-[90%] md:w-[70%] cursor-pointer">
+        <div className="flex items-center justify-center mt-1">
+        <nav className=" bg-white backdrop-blur-xl shadow-[0_4px_15px_rgba(0,0,0,0.15)] border border-white/40 rounded-xl px-6 py-3 z-50 w-[90%] md:w-[70%] cursor-pointer">
             <div className="flex justify-between items-center">
                 <img src="/Logo.png" alt="" className="h-10" />
                 <ul className="hidden lg:flex gap-8 font-lato font-semibold">
@@ -63,5 +64,7 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
+        </div>
+
     );
 }
