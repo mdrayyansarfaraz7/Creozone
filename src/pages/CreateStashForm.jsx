@@ -101,7 +101,7 @@ function CreateStashForm() {
       </div>
       <button
         type="submit"
-        className="w-full py-2.5 text-rose-500 border-2 border-rose-500 bg-white hover:bg-rose-500 hover:text-white hover:border-white rounded-lg font-medium tracking-wide transition duration-200"
+        className="w-full py-2.5 text-rose-500 border border-rose-500 bg-white hover:bg-rose-500 hover:text-white hover:border-white rounded-lg font-medium tracking-wide transition duration-200"
       >
         Create Stash
       </button>
