@@ -11,7 +11,7 @@ function Categories() {
     { ImgURL: '/UI_UX.png', text: 'UI/UX Designs' },
     { ImgURL: '/Mocups.png', text: 'Mocups' },
     { ImgURL: '/Print.png', text: 'Print Design' },
-    { ImgURL: '/Newsletter.png', text: 'NewsLetters' },
+    { ImgURL: '/Newsletter.png', text: 'News Letters' },
     { ImgURL: '/Packaging.png', text: 'Packaging' },
     
   ];
