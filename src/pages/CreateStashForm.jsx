@@ -1,19 +1,62 @@
 
+import axios from 'axios';
 import { useState } from 'react';
-
+import { useAuthStore } from '../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from 'lucide-react';
 
 function CreateStashForm() {
 
-
+  const { user } = useAuthStore();
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
+  const [category, setCategory] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [extraImages, setExtraImages] = useState([]);
   const [extraPreviews, setExtraPreviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   console.log(thumbnail);
   console.log(extraImages);
+
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(loading);
+    try {
+      const form = new FormData();
+      form.append('title', title);
+      form.append('desc', desc);
+      form.append('category', category);
+      form.append('thumbnail', thumbnail);
+
+      if (extraImages.length > 0) {
+        extraImages.forEach((file) => {
+          form.append('images', file);
+        });
+      }
+
+      console.log(form.images);
+
+      await axios.post(`http://localhost:8080/api/stash/create-stash/${user._id}`, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      setLoading(false);
+      navigate(`/profile/${user.username}`);
+
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
@@ -28,10 +71,8 @@ function CreateStashForm() {
   };
 
   return (
-    <form className="max-w-2xl mx-auto p-8 bg-white/80 backdrop-blur-lg shadow-md rounded-xl border border-gray-200 font-lato mt-5">
+    <form className="max-w-2xl mx-auto p-8 bg-white/80 backdrop-blur-lg shadow-md rounded-xl border border-gray-200 font-lato mt-5" onSubmit={handleSubmit} encType='multipart/form-data'>
       <h2 className="text-3xl font-lato font-bold text-gray-800 mb-6">Create a New Stash</h2>
-
-      {/* Title */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-600 mb-2">Title <span className="text-rose-400">*</span></label>
         <input
@@ -54,8 +95,27 @@ function CreateStashForm() {
           className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-gray-400 transition duration-200 resize-none"
         />
       </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-600 mb-2">Category <span className="text-rose-400">*</span></label>
+        <select className="w-full px-4 py-4 rounded-lg text-gray-500 border border-gray-200 bg-gray-50 focus:outline-none focus:border-gray-400 transition duration-200" name="category" defaultValue={category} onChange={(e) => setCategory(e.target.value)}>
+          {[
+            'logos',
+            'card-designs',
+            'branding',
+            'graphics',
+            'iconography',
+            'ui-ux-design',
+            'mocups',
+            'print-design',
+            'packaging',
+            'news-letter'
+          ].map(type => (
+            <option key={type} value={type}>{type}</option>
+          ))}
+        </select>
+      </div>
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-600 mb-2">Thumbnail <span className="text-rose-400">*</span></label>
+        <label className="block text-sm font-medium text-gray-600 mb-2 mt-2">Thumbnail <span className="text-rose-400">*</span></label>
         <input
           type="file"
           accept="image/*"
@@ -99,11 +159,16 @@ function CreateStashForm() {
           </div>
         )}
       </div>
+      
       <button
         type="submit"
-        className="w-full py-2.5 text-rose-500 border border-rose-500 bg-white hover:bg-rose-500 hover:text-white hover:border-white rounded-lg font-medium tracking-wide transition duration-200"
+        className="w-full py-2.5 text-rose-500 border border-rose-500 bg-white hover:bg-rose-500 hover:text-white hover:border-white rounded-lg font-medium tracking-wide transition duration-200 flex items-center justify-center"
       >
-        Create Stash
+        {loading ? (
+          <Loader className="w-5 h-5 animate-spin" />
+        ) : (
+          <>Create Stash</>
+        )}
       </button>
     </form>
   );
