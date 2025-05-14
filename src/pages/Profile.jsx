@@ -6,16 +6,17 @@ import { Boxes } from "lucide-react";
 import StashCard from "../components/StashCard";
 import { Link, useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-
+import Masonry from 'react-masonry-css';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BentoGrid from "../components/BentoGrid";
 
 function Profile() {
-  const { user,checkAuth } = useAuthStore();
-  useEffect(()=>{
-          checkAuth();
-        },[checkAuth])
-        
+  const { user, checkAuth } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth])
+
   console.log(user);
 
 
@@ -52,29 +53,31 @@ function Profile() {
     StyleChain: ['/u10.jpeg']
   }]
 
-const { username } = useParams();
-const isOwner = username === user?.username;
+  const { username } = useParams();
+  const isOwner = username === user?.username;
 
-const [profileData, setProfileData] = useState({});
-const [loading, setLoading] = useState(true);
+  const [profileData, setProfileData] = useState({});
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const Details = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`http://localhost:8080/api/user/${username}`);
-      setProfileData(res.data.userDetails);
-      console.log(res.data.userDetails); 
-    } catch (e) {
-      console.log(e);
-      setProfileData(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-  Details();
-}, [username]);
+  useEffect(() => {
+    const Details = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:8080/api/user/${username}`);
+        setProfileData(res.data.userDetails);
+        console.log(res.data.userDetails);
+      } catch (e) {
+        console.log(e);
+        setProfileData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    Details();
+  }, [username]);
 
+  console.log("Users stash Array:", profileData.stash);
+  console.log("Users creations Array:", profileData.creations);
 
   const acceptedRefinements = profileData?.refinements?.filter((u) => u.status === 'accepted') || [];
   if (loading) {
@@ -87,11 +90,11 @@ useEffect(() => {
 
   return (
     <div className="flex">
-      <Sidebar username={profileData.username} isOwner={isOwner}/>
+      <Sidebar username={profileData.username} isOwner={isOwner} />
 
       <div className="flex-1 ml-14 md:ml-52 p-3 overflow-y-auto h-screen flex flex-col gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
-         <ProfileUserCard profileData={profileData} isOwner={isOwner} />
+          <ProfileUserCard profileData={profileData} isOwner={isOwner} />
 
           <div className="flex-1 w-full h-auto bg-gray-100 rounded-md shadow p-4 ">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,9 +165,9 @@ useEffect(() => {
                     isOwner ? (<>
                       <p className="text-sm text-gray-600 mt-1">Create your first stash to get started organizing your ideas.</p>
                       <Link to={'/create-stash'}>
-                      <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
-                        + Create New Stash
-                      </button>
+                        <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
+                          + Create New Stash
+                        </button>
                       </Link>
 
                     </>) : (<></>)
@@ -175,14 +178,18 @@ useEffect(() => {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 h-full">
                   <div>
                     <h3 className="text-sm text-gray-500">Last Updated Stash</h3>
-                    <h2 className="text-2xl font-semibold text-gray-800 mt-1">Landing Page Concepts</h2>
-                    <p className="text-xs text-gray-400 mt-1">Updated on May 8, 2025</p>
+                    <h2 className="text-2xl font-semibold text-gray-800 mt-1">{profileData.stash[profileData.stash.length - 1].title}</h2>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {new Date(profileData.stash[profileData.stash.length - 1].updatedAt).toLocaleString()}
+                    </p>
                   </div>
                   <div>
                     {isOwner ? (<>
-                      <button className="px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
-                        + Create New Stash
-                      </button>
+                      <Link to={'/create-stash'}>
+                        <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
+                          + Create New Stash
+                        </button>
+                      </Link>
                       <p className="text-sm text-gray-600 mt-2">Start organizing your next design idea.</p> </>) : (<></>)}
                   </div>
                 </div>
@@ -230,11 +237,11 @@ useEffect(() => {
                 isOwner ? (<>
                   <p className="text-sm text-gray-500 mb-6">Start organizing your design ideas by creating a stash.</p>
 
-                      <Link to={'/create-stash'}>
-                      <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
-                        + Create New Stash
-                      </button>
-                      </Link>
+                  <Link to={'/create-stash'}>
+                    <button className="mt-4 px-5 py-2 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow transition-all duration-200">
+                      + Create New Stash
+                    </button>
+                  </Link>
 
                 </>) : (<></>)
               }
@@ -242,15 +249,14 @@ useEffect(() => {
             </div>
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-              {Stash.map((s, i) => (
+              {profileData.stash.map((s, i) => (
                 <StashCard
                   key={i}
-                  thumb={s.thumb}
+                  thumb={s.thumbnail}
                   title={s.title}
-                  category={s.category}
                   desc={s.desc}
-                  noCrea={s.noCrea}
-                  StyleChain={s.StyleChain}
+                  StyleChain={s.styleChain}
+                  noCrea={s.creations?.length}
                 />
               ))}
             </div>
@@ -258,30 +264,18 @@ useEffect(() => {
         </div>
         <div>
           <h2 className="text-5xl text-center md:text-left  font-lato font-semibold text-gray-800 my-5">
-           Top <span className="text-rose-500">Creations</span>
+            Top <span className="text-rose-500">Creations</span>
           </h2>
           <div className="mt-3 bg-gray-100 w-full rounded-md h-auto">
             {profileData.creations.length === 0 ? (
               <div className="flex flex-col items-center justify-center px-5 py-12 bg-gray-100 rounded-xl shadow-inner text-center">
                 <p className="text-2xl font-lato text-gray-800 mb-4">No Creations Created!</p>
                 <p className="text-sm text-gray-500 ">
-                  It seems like nothing has been crafted so far. 
+                  It seems like nothing has been crafted so far.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-                {Stash.map((s, i) => (
-                  <StashCard
-                    key={i}
-                    thumb={s.thumb}
-                    title={s.title}
-                    category={s.category}
-                    desc={s.desc}
-                    noCrea={s.noCrea}
-                    StyleChain={s.StyleChain}
-                  />
-                ))}
-              </div>
+              <BentoGrid creations={profileData.creations} />
             )}
           </div>
         </div>
