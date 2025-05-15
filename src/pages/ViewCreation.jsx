@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ColorThief from 'colorthief';
 import { ScaleLoader } from 'react-spinners';
 import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose } from 'lucide-react';
@@ -13,6 +13,7 @@ function ViewCreation() {
     const [width, setWidth] = useState(null);
     const [height, setHeight] = useState(null);
     const [colors, setColors] = useState([]);
+    const [suggested, setSuggested] = useState([]);
     const [loading, setLoading] = useState(true);
     const imgRef = useRef();
 
@@ -27,8 +28,18 @@ function ViewCreation() {
         const fetchCreationDetails = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/creation/${id}`);
-                setCreation(response.data.creationDetails);
+                const data = response.data.creationDetails;
+                setCreation(data);
                 setLoading(false);
+                if (data && data.category) {
+                    const suggestedRes = await axios.get(`http://localhost:8080/api/creation/categorycreations/${data.category}`);
+                    const allCategoryCreations = suggestedRes.data.creations;
+                    const related = allCategoryCreations
+                        .filter((item) => item._id !== data._id)
+                        .slice(0, 4);
+
+                    setSuggested(related);
+                }
             } catch (error) {
                 console.error(error);
                 setLoading(false);
@@ -37,6 +48,7 @@ function ViewCreation() {
 
         fetchCreationDetails();
     }, [id]);
+
 
     const handleImageLoad = () => {
         if (!imgRef.current) return;
@@ -63,12 +75,12 @@ function ViewCreation() {
             <div className='hidden md:inline'>
                 <Sidebar isOwner={isOwner} />
             </div>
-            
-            <div className="ml-1 md:ml-52 p-6 max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto">
+
+            <div className="ml-1 md:ml-52 p-6 max-w-2xl lg:max-w-4xl xl:max-w-[90%] mx-auto">
                 {creation ? (
                     <>
                         <div className="bg-base-200 rounded-xl p-4 shadow-md">
-                           
+
                             <div className="flex justify-between flex-wrap items-center gap-4 mx-4 mb-4">
                                 <div className="flex items-center gap-3">
                                     <img
@@ -97,7 +109,7 @@ function ViewCreation() {
                                     alt="Creation"
                                     crossOrigin="anonymous"
                                     onLoad={handleImageLoad}
-                                    className="max-w-[90%] max-h-screen md:max-h-[60vh] rounded-lg object-contain scale-95 transition-transform duration-300"
+                                    className="max-w-[90%] max-h-screen md:max-h-[70vh] rounded-lg object-contain scale-95 transition-transform duration-300"
                                 />
                             </div>
 
@@ -123,6 +135,26 @@ function ViewCreation() {
                                 </div>
                             </div>
                         </div>
+
+                        {suggested.length > 0 && (
+                            <div className="mt-10">
+                                <h2 className="text-4xl text-center md:text-left font-bold mb-4 font-lato">Related Creations</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-1">
+                                    {suggested.map((item) => (
+                                        <Link to={`/creation/${item._id}`}>
+                                            <div key={item._id} className="bg-white rounded-lg shadow">
+                                                <img
+                                                    src={item.url}
+                                                    alt="Suggested"
+                                                    className="max-w-[90%] max-h-screen md:max-h-[30vh] object-cover hover:scale-105 transition-transform duration-300"
+                                                />
+                                            </div>
+                                        </Link>
+
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Modal */}
                         <input type="checkbox" id="more-info-modal" className="modal-toggle" />

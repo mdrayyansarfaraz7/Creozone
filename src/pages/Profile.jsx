@@ -215,7 +215,8 @@ function Profile() {
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
               {profileData.stash.map((s, i) => (
-                <StashCard
+                <Link to={`/stash/${s._id}`}>
+                 <StashCard
                   key={i}
                   thumb={s.thumbnail}
                   title={s.title}
@@ -223,6 +224,8 @@ function Profile() {
                   StyleChain={s.styleChain}
                   noCrea={s.creations?.length}
                 />
+                </Link>
+
               ))}
             </div>
           )}
