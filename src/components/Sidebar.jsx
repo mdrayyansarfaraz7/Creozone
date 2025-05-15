@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 
-const Sidebar = ({ username, isOwner }) => {
+const Sidebar = ({ isOwner }) => {
     const navItems = [
         { icon: <Home size={20} />, label: "Home" },
         { icon: <User size={20} />, label: "Profile" },
@@ -26,7 +26,7 @@ const Sidebar = ({ username, isOwner }) => {
         { icon: <Layers size={20} />, label: "StyleChains" },
     ];
 
-    const filteredItems = isOwner ? navItems : navItems.slice(0, 4);
+    const filteredItems = isOwner ? navItems : navItems.slice(0, 3);
      const { user} = useAuthStore();
     return (
         <aside className="fixed top-0 left-0 h-screen w-14 md:w-52 bg-base-200 shadow-md flex flex-col justify-between p-3 z-10">
@@ -57,7 +57,7 @@ const Sidebar = ({ username, isOwner }) => {
                                     alt="User Avatar"
                                     className="w-8 h-8 rounded-full object-cover"
                                 />
-                            <span className="text-xs font-lato hidden md:inline">{username}</span>
+                            <span className="text-xs font-lato hidden md:inline">{user.username}</span>
                             <ChevronDown size={16} className="hidden md:inline" />
                         </div>
                     </label>

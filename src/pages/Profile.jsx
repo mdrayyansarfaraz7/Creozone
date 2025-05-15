@@ -18,41 +18,6 @@ function Profile() {
   }, [checkAuth])
 
   console.log(user);
-
-
-  const Stash = [{
-    thumb: '/death.png',
-    title: 'Death:Book Cover',
-    desc: '"Death: Book Cover" features a bold, haunting design that blends dark tones and eerie visuals, capturing the essence of suspense and mystery.',
-    category: 'Print Design',
-    noCrea: 17,
-    StyleChain: ['/u10.jpeg', '/u4.jpeg', '/u6.jpeg']
-  },
-  {
-    thumb: '/web1.png',
-    title: `GardenUp's Website`,
-    desc: 'Garden Up Store features a clean, earthy UI with intuitive navigation, showcasing plants and pots in an aesthetic, user-friendly layout.',
-    category: 'UI/UX',
-    noCrea: 5,
-    StyleChain: ['/u10.jpeg', '/u3.jpeg', '/u6.jpeg']
-  },
-  {
-    thumb: '/Larnan.png',
-    title: 'Larnar Catering:Card Design',
-    desc: '"Larnar Catering delivers exquisite, handcrafted meals for events, blending culinary expertise with personalized service to create unforgettable dining experiences.',
-    category: 'Card Design',
-    noCrea: 3,
-    StyleChain: ['/u10.jpeg', '/u3.jpeg']
-  },
-  {
-    thumb: '/Nebula.png',
-    title: 'Nebula:Book Cover',
-    desc: '"Nebula Journal offers a celestial-inspired platform for thoughts and creativity, merging cosmic aesthetics with space for introspection and expression.',
-    category: 'Print Design',
-    noCrea: 1,
-    StyleChain: ['/u10.jpeg']
-  }]
-
   const { username } = useParams();
   const isOwner = username === user?.username;
 

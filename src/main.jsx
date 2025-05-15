@@ -10,6 +10,7 @@ import RedirectIfAuth from './components/RedirectIfAuth.jsx';
 import Profile from './pages/Profile.jsx';
 import RedirectIfNotAuth from './components/RedirectIfNotAuth.jsx';
 import CreateStashForm from './pages/CreateStashForm.jsx';
+import ViewCreation from './pages/ViewCreation.jsx';
 
 
 
@@ -31,7 +32,7 @@ let router = createBrowserRouter(
         </RedirectIfAuth>
       } />
       <Route path="/profile/:username" element={<Profile />} />
-  
+     <Route path="/creation/:id" element={<ViewCreation/>}/>
     </>
   )
 );

@@ -1,5 +1,6 @@
 
 import Masonry from "react-masonry-css";
+import { Link } from "react-router-dom";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -16,16 +17,19 @@ const BentoGrid = ({ creations }) => {
       columnClassName="my-masonry-grid_column"
     >
       {creations.map((creation) => (
-        <div
+        <Link to={`/creation/${creation._id}`}>
+                <div
           key={creation._id}
-          className="rounded overflow-hidden bg-white dark:bg-neutral-900 shadow hover:shadow-lg transition-shadow"
+          className="rounded overflow-hidden bg-white m-2 dark:bg-neutral-900 shadow hover:shadow-lg transition-shadow"
         >
           <img
             src={creation.url}
             alt={creation.title || "creation"}
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain "
           />
         </div>
+        </Link>
+
       ))}
     </Masonry>
   );
