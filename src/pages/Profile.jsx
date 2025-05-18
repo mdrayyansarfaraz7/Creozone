@@ -214,18 +214,16 @@ function Profile() {
             </div>
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-              {profileData.stash.map((s, i) => (
-                <Link to={`/stash/${s._id}`}>
-                 <StashCard
-                  key={i}
-                  thumb={s.thumbnail}
-                  title={s.title}
-                  desc={s.desc}
-                  StyleChain={s.styleChain}
-                  noCrea={s.creations?.length}
-                />
+              {profileData.stash.slice(0, 4).map((s) => (
+                <Link to={`/stash/${s._id}`} key={s._id}>
+                  <StashCard
+                    thumb={s.thumbnail}
+                    title={s.title}
+                    desc={s.desc}
+                    StyleChain={s.styleChain}
+                    noCrea={s.creations?.length}
+                  />
                 </Link>
-
               ))}
             </div>
           )}

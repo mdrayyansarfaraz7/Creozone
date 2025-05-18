@@ -65,7 +65,7 @@ function ViewCreation() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <ScaleLoader className="text-rose-500" height={35} margin={3} />
+                <ScaleLoader color="#f43f5e" height={35} margin={3} />
             </div>
         );
     }
@@ -82,6 +82,7 @@ function ViewCreation() {
                         <div className="bg-base-200 rounded-xl p-4 shadow-md">
 
                             <div className="flex justify-between flex-wrap items-center gap-4 mx-4 mb-4">
+                                <Link to={`/profile/${creation.author.username}`}>
                                 <div className="flex items-center gap-3">
                                     <img
                                         src={creation.author.avatar}
@@ -93,6 +94,8 @@ function ViewCreation() {
                                         <p className="text-xs md:text-sm font-lato text-gray-500">{creation.author.email}</p>
                                     </div>
                                 </div>
+                                </Link>
+
 
                                 <button className="bg-rose-500 text-white rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
                                     <Eye size={16} className="block lg:hidden" />
@@ -101,8 +104,7 @@ function ViewCreation() {
                                 </button>
                             </div>
 
-                            {/* Image */}
-                            <div className="flex justify-center">
+                            <div className="flex justify-center ">
                                 <img
                                     ref={imgRef}
                                     src={creation.url}
@@ -112,16 +114,15 @@ function ViewCreation() {
                                     className="max-w-[90%] max-h-screen md:max-h-[70vh] rounded-lg object-contain scale-95 transition-transform duration-300"
                                 />
                             </div>
-
-                            {/* Info Row */}
                             <div className="flex items-center justify-between mx-3 flex-wrap gap-4 mt-6">
-                                {/* Category & Stash Info */}
+                            <Link to={`/stash/${creation.stash._id}`}>
                                 <div>
                                     <p className="font-lato text-sm text-gray-500">category: {creation.category}</p>
                                     <p className="text-lg font-lato text-gray-600">Stash: {creation.stash.title}</p>
                                 </div>
+                            </Link>
 
-                                {/* Action Buttons */}
+
                                 <div className="flex gap-3 flex-wrap">
                                     <button className="btn btn-sm bg-rose-500 text-white hover:bg-rose-600 gap-2">
                                         <ThumbsUp size={16} /> {creation.likes.length}
@@ -138,25 +139,26 @@ function ViewCreation() {
 
                         {suggested.length > 0 && (
                             <div className="mt-10">
-                                <h2 className="text-4xl text-center md:text-left font-bold mb-4 font-lato">Related Creations</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-1">
+                                <h2 className="text-4xl text-center md:text-left font-bold mb-6 font-lato text-slate-800">
+                                    Related <span className='text-rose-500'>Creations</span>
+                                </h2>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 px-4 md:px-0 justify-items-center">
                                     {suggested.map((item) => (
-                                        <Link to={`/creation/${item._id}`}>
-                                            <div key={item._id} className="bg-white rounded-lg shadow">
+                                        <Link to={`/creation/${item._id}`} key={item._id} className="w-full max-w-[200px]">
+                                            <div className="bg-white rounded-sm shadow-md overflow-hidden transition-transform hover:scale-105 duration-300">
                                                 <img
                                                     src={item.url}
                                                     alt="Suggested"
-                                                    className="max-w-[90%] max-h-screen md:max-h-[30vh] object-cover hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-full object-cover"
                                                 />
                                             </div>
                                         </Link>
-
                                     ))}
                                 </div>
                             </div>
                         )}
 
-                        {/* Modal */}
                         <input type="checkbox" id="more-info-modal" className="modal-toggle" />
                         <div className="modal">
                             <div className="modal-box">
@@ -181,7 +183,7 @@ function ViewCreation() {
                         </div>
                     </>
                 ) : (
-                    <p className="text-center text-gray-500 mt-6">No creation found.</p>
+                    <p className="text-center text-gray-500 mt-6"> No creation found.</p>
                 )}
             </div>
         </>

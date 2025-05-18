@@ -11,11 +11,7 @@ import Profile from './pages/Profile.jsx';
 import RedirectIfNotAuth from './components/RedirectIfNotAuth.jsx';
 import CreateStashForm from './pages/CreateStashForm.jsx';
 import ViewCreation from './pages/ViewCreation.jsx';
-import ViewStash from './pages/viewStash.jsx';
-
-
-
-
+import ViewStash from './pages/ViewStash.jsx';
 let router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -33,7 +29,7 @@ let router = createBrowserRouter(
         </RedirectIfAuth>
       } />
       <Route path="/profile/:username" element={<Profile />} />
-     <Route path="/creation/:id" element={<ViewCreation/>}/>
+      <Route path="/creation/:id" element={<ViewCreation/>}/>
      <Route path='/stash/:id' element={<ViewStash/>}/>
     </>
   )
