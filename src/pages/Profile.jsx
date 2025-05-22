@@ -55,7 +55,7 @@ function Profile() {
 
   return (
     <div className="flex">
-      <Sidebar username={profileData.username} isOwner={isOwner} />
+      <Sidebar username={user?user.username:profileData.username} isOwner={user?true:false} />
 
       <div className="flex-1 ml-14 md:ml-52 p-3 overflow-y-auto h-screen flex flex-col gap-6">
         <div className="flex flex-col lg:flex-row gap-4">

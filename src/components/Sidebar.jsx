@@ -39,7 +39,7 @@ const Sidebar = ({ isOwner, username }) => {
                         <Link to={item.url}>
                             <li
                                 key={i}
-                                className="rounded-md hover:bg-transparent border border-white hover:border-rose-500 transition-all duration-200"
+                                className="rounded-md hover:bg-transparent border border-base-100 hover:border-rose-500 transition-all duration-200"
                             >
                                 <a className="flex items-center gap-3 font-lato text-sm px-2 py-2 text-black cursor-pointer">
                                     <span className="text-gray-800">{item.icon}</span>
