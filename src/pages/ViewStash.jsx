@@ -49,7 +49,7 @@ function ViewStash() {
 
   return (
     <>
-      <div className=" p-4 font-sans text-gray-700">
+      <div className=" p-2 font-sans text-gray-700">
         <div className="px-2 py-1">
           <button
             onClick={() => navigate(-1)}
@@ -62,7 +62,7 @@ function ViewStash() {
 
         <div className="flex flex-col md:flex-row bg-white rounded-lg  overflow-hidden">
 
-          <div className="md:w-2/4 w-full h-auto flex justify-center items-center bg-gray-100">
+          <div className="md:w-3/5 w-full h-auto flex justify-center items-center bg-gray-100">
             <img
               src={currentImg}
               alt="Thumbnail"
@@ -72,7 +72,7 @@ function ViewStash() {
           {
             !allCreations ?
               (<>
-                <div className="md:w-2/4 w-full p-8 flex flex-col justify-between bg-white shadow-md rounded-r-lg">
+                <div className="md:w-2/5 w-full p-8 flex flex-col justify-between bg-white shadow-md rounded-r-lg">
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <h1 className="text-3xl font-lato text-gray-900 tracking-tight">

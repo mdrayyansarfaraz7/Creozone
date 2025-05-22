@@ -48,7 +48,7 @@ function ViewCreation() {
 
         fetchCreationDetails();
     }, [id]);
-
+    console.log(creation);
 
     const handleImageLoad = () => {
         if (!imgRef.current) return;
@@ -73,7 +73,7 @@ function ViewCreation() {
     return (
         <>
             <div className='hidden md:inline'>
-                <Sidebar username={user?user.username:creation.author.username} isOwner={isOwner} />
+                <Sidebar username={user ? user.username : creation.author.username} isOwner={isOwner} />
             </div>
 
             <div className="ml-1 md:ml-52 p-6 max-w-2xl lg:max-w-4xl xl:max-w-[90%] mx-auto">
@@ -83,25 +83,32 @@ function ViewCreation() {
 
                             <div className="flex justify-between flex-wrap items-center gap-4 mx-4 mb-4">
                                 <Link to={`/profile/${creation.author.username}`}>
-                                <div className="flex items-center gap-3">
-                                    <img
-                                        src={creation.author.avatar}
-                                        alt="avatar"
-                                        className="w-10 h-10 rounded-full"
-                                    />
-                                    <div>
-                                        <h2 className="font-lato text-sm md:text-lg font-semibold">{creation.author.username}</h2>
-                                        <p className="text-xs md:text-sm font-lato text-gray-500">{creation.author.email}</p>
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={creation.author.avatar}
+                                            alt="avatar"
+                                            className="w-10 h-10 rounded-full"
+                                        />
+                                        <div>
+                                            <h2 className="font-lato text-sm md:text-lg font-semibold">{creation.author.username}</h2>
+                                            <p className="text-xs md:text-sm font-lato text-gray-500">{creation.author.email}</p>
+                                        </div>
                                     </div>
-                                </div>
                                 </Link>
 
 
-                                <button className="bg-rose-500 text-white rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
+                                <button className="relative bg-rose-500 text-white rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
                                     <Eye size={16} className="block lg:hidden" />
                                     <Eye size={20} className="hidden lg:block" />
                                     <span className="hidden sm:inline">Outlooks</span>
+
+                                    {creation?.outlooks?.length > 0 && (
+                                        <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ">
+                                            {creation.outlooks.length}
+                                        </span>
+                                    )}
                                 </button>
+
                             </div>
 
                             <div className="flex justify-center ">
@@ -115,12 +122,12 @@ function ViewCreation() {
                                 />
                             </div>
                             <div className="flex items-center justify-between mx-3 flex-wrap gap-4 mt-6">
-                            <Link to={`/stash/${creation.stash._id}`}>
-                                <div>
-                                    <p className="font-lato text-sm text-gray-500">category: {creation.category}</p>
-                                    <p className="text-lg font-lato text-gray-600">Stash: {creation.stash.title}</p>
-                                </div>
-                            </Link>
+                                <Link to={`/stash/${creation.stash._id}`}>
+                                    <div>
+                                        <p className="font-lato text-sm text-gray-500">category: {creation.category}</p>
+                                        <p className="text-lg font-lato text-gray-600">Stash: {creation.stash.title}</p>
+                                    </div>
+                                </Link>
 
 
                                 <div className="flex gap-3 flex-wrap">
