@@ -87,10 +87,6 @@ const handleSubmit = async (e) => {
     dialogRef.current.close();
   }
 };
-
-
-
-
   return (
     <div className="w-full cursor-pointer md:w-[340px] h-[450px] rounded-md bg-gray-100 shadow-md p-5 flex flex-col items-center">
       <div className="h-56 w-56 p-3 rounded-full border border-rose-500 flex items-center justify-center">
@@ -109,6 +105,7 @@ const handleSubmit = async (e) => {
           >
             Edit Profile
           </button>
+
           <dialog ref={dialogRef} id="my_modal_1" className="modal">
             <div className="modal-box">
               <form method="dialog">

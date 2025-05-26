@@ -157,14 +157,7 @@ function ViewStash() {
                       </button>
                     </div>
                   </div>
-                  <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200 cursor-pointer">
-                      <BrushIcon className="text-rose-600" />
-                      <div>
-                        <p className="font-semibold text-gray-800">View Result Stashes</p>
-                        <p className="text-xs text-gray-500">Explore refined versions and iterations</p>
-                      </div>
-                    </div>
+                  <div className="mt-3">
                     <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200 cursor-pointer">
                       <PenTool className="text-rose-600" />
                       <div>

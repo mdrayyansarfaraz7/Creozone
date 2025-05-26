@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import ColorThief from 'colorthief';
 import { ScaleLoader } from 'react-spinners';
-import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose } from 'lucide-react';
+import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose, PenTool, Loader } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
 
@@ -15,8 +15,48 @@ function ViewCreation() {
     const [colors, setColors] = useState([]);
     const [suggested, setSuggested] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+
+    const [formData, setFormData] = useState({
+        username: '',
+        feedback: '',
+    })
+    const [selectedFile, setSelectedFile] = useState(null);
+
     const imgRef = useRef();
 
+
+
+    const [showModal, setShowModal] = useState(false);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = new FormData();
+        data.append('author', user.username);
+        data.append('feedback', formData.feedback);
+        if (selectedFile) {
+            data.append('refinement', selectedFile);
+        }
+
+        try {
+            setSubmitting(true);
+            await axios.post(`http://localhost:8080/api/outlook/create-outlook/${id}`, data, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            setSubmitting(false);
+            closeModal();
+        } catch (err) {
+            console.error('Error submitting outlook:', err);
+        }
+    };
     const { user, checkAuth } = useAuthStore();
     useEffect(() => {
         checkAuth();
@@ -96,18 +136,103 @@ function ViewCreation() {
                                     </div>
                                 </Link>
 
+                                <div className='flex gap-5'>
+                                    <Link to={`/outlook/${id}`}>
+                                        <button className="relative bg-rose-500 text-white text-sm rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
+                                        <Eye size={16} className="block lg:hidden" />
+                                        <Eye size={20} className="hidden lg:block" />
+                                        <span className="hidden sm:inline">View Outlooks</span>
 
-                                <button className="relative bg-rose-500 text-white rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
-                                    <Eye size={16} className="block lg:hidden" />
-                                    <Eye size={20} className="hidden lg:block" />
-                                    <span className="hidden sm:inline">Outlooks</span>
+                                        {creation?.outlooks?.length > 0 && (
+                                            <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ">
+                                                {creation.outlooks.length}
+                                            </span>
+                                        )}
+                                    </button>
+                                    </Link>
 
-                                    {creation?.outlooks?.length > 0 && (
-                                        <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ">
-                                            {creation.outlooks.length}
-                                        </span>
-                                    )}
-                                </button>
+                                    {
+                                        user.username != creation.author.username ? (
+                                            <>
+                                                {user && (
+                                                    <button onClick={() => setShowModal(true)} className="relative bg-rose-500 text-white text-sm rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
+                                                        <PenTool size={16} className="block lg:hidden" />
+                                                        <PenTool size={20} className="hidden lg:block" />
+                                                        <span className="hidden sm:inline">Add Outlook</span>
+                                                    </button>
+                                                )}
+                                            </>) : (<> </>)
+                                    }
+
+
+                                </div>
+
+                                {user && showModal && (
+                                    <div className="modal modal-open">
+                                        <div className="modal-box rounded-xl shadow-xl border border-gray-200 bg-white">
+                                            <h3 className="font-bold text-2xl font-lato text-gray-800 mb-5 text-center">
+                                                Share Your <span className="text-rose-500">Outlook</span>
+                                            </h3>
+
+                                            <form className="flex flex-col gap-4" encType="multipart/form-data" onSubmit={handleSubmit}>
+
+                                                <div className="space-y-1">
+                                                    <label className="text-sm font-semibold text-gray-700">Username</label>
+                                                    <input
+                                                        type="text"
+                                                        className="input input-bordered input-sm w-full bg-gray-100 text-gray-500"
+                                                        value={user?.username}
+                                                        disabled
+                                                    />
+                                                </div>
+
+                                                <div className="space-y-1">
+                                                    <label className="text-sm font-semibold text-gray-700">Feedback <span className="text-red-500">*</span></label>
+                                                    <textarea
+                                                        className="textarea textarea-bordered textarea-md w-full bg-white"
+                                                        placeholder="Share your thoughts, ideas, or suggestions..."
+                                                        required
+                                                        value={formData.feedback}
+                                                        onChange={(e) =>
+                                                            setFormData((prev) => ({
+                                                                ...prev,
+                                                                feedback: e.target.value
+                                                            }))
+                                                        }
+                                                    />
+                                                </div>
+
+                                                <div className="space-y-1">
+                                                    <label className="text-sm font-semibold text-gray-700">Optional File</label>
+                                                    <input
+                                                        type="file"
+                                                        className="file-input file-input-sm file-input-bordered w-full"
+                                                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                                                    />
+                                                </div>
+
+                                                <div className="modal-action mt-6 flex justify-between">
+                                                    <button
+                                                        type="submit"
+                                                        className="bg-rose-500 text-white btn-sm py-1 px-3 rounded-md text-sm"
+                                                        disabled={submitting}
+                                                    >
+                                                        {submitting ? (
+                                                            (<Loader className="w-5 h-5 animate-spin" />)
+                                                        ) : (
+                                                            "Submit"
+                                                        )}
+                                                    </button>
+                                                    <button type="button" onClick={closeModal} className="btn btn-sm btn-outline">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
+
+
 
                             </div>
 
