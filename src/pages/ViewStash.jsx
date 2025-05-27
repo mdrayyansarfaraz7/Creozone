@@ -6,6 +6,7 @@ import { ScaleLoader } from 'react-spinners';
 import SleekFooter from '../components/SleekFooter';
 import { BrushIcon, ImagePlus, LucideBrush, PenTool, ArrowLeft } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import ScrollToTop from '../utils/ScrollToTop';
 
 function ViewStash() {
   const { id } = useParams();
@@ -49,6 +50,7 @@ function ViewStash() {
 
   return (
     <>
+    <ScrollToTop/>
       <div className=" p-2 font-sans text-gray-700">
         <div className="px-2 py-1">
           <button

@@ -6,6 +6,7 @@ import { ScaleLoader } from 'react-spinners';
 import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose, PenTool, Loader } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
+import ScrollToTop from '../utils/ScrollToTop';
 
 function ViewCreation() {
     const { id } = useParams();
@@ -112,6 +113,7 @@ function ViewCreation() {
 
     return (
         <>
+        <ScrollToTop/>
             <div className='hidden md:inline'>
                 <Sidebar username={user ? user.username : creation.author.username} isOwner={isOwner} />
             </div>

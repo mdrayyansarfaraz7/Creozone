@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ScaleLoader } from 'react-spinners';
 import { useAuthStore } from '../store/useAuthStore';
 import { Loader, PenTool } from 'lucide-react';
+import ScrollToTop from '../utils/ScrollToTop';
 
 function ViewOutlooks() {
   const { user, checkAuth } = useAuthStore();
@@ -33,7 +34,7 @@ function ViewOutlooks() {
     if (!refineFile || !selectedOutlookId) return;
 
     const data = new FormData();
-    data.append('userId',user._id);
+    data.append('userId', user._id);
     data.append("refinement", refineFile);
 
     try {
@@ -108,7 +109,7 @@ function ViewOutlooks() {
   console.log(outlooks);
   return (
     <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen p-6 gap-6">
-
+       <ScrollToTop/>
       {user && showModal && (
         <div className="modal modal-open fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="modal-box rounded-xl shadow-xl border border-gray-200 bg-white max-w-lg w-full mx-4">
@@ -309,7 +310,12 @@ function ViewOutlooks() {
                         src={refine.ImgUrl}
                         alt="refinement"
                         className="w-24 h-24 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
-                        onClick={() => setDisplayImg(refine.ImgUrl)}
+                        onClick={() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          setTimeout(() => {
+                            setDisplayImg(refine.ImgUrl);
+                          }, 400);
+                        }}
                       />
                     </div>
                   ))}

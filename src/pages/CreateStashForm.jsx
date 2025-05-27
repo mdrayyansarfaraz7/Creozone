@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from 'lucide-react';
+import ScrollToTop from '../utils/ScrollToTop';
 
 function CreateStashForm() {
 
@@ -71,7 +72,9 @@ function CreateStashForm() {
   };
 
   return (
-    <form className="max-w-2xl mx-auto p-8 bg-white/80 backdrop-blur-lg shadow-md rounded-xl border border-gray-200 font-lato mt-5" onSubmit={handleSubmit} encType='multipart/form-data'>
+    <>
+    <ScrollToTop/>
+        <form className="max-w-2xl mx-auto p-8 bg-white/80 backdrop-blur-lg shadow-md rounded-xl border border-gray-200 font-lato mt-5" onSubmit={handleSubmit} encType='multipart/form-data'>
       <h2 className="text-3xl font-lato font-bold text-gray-800 mb-6">Create a New Stash</h2>
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-600 mb-2">Title <span className="text-rose-400">*</span></label>
@@ -171,6 +174,8 @@ function CreateStashForm() {
         )}
       </button>
     </form>
+    </>
+
   );
 }
 

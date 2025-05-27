@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import { useAuthStore } from './store/useAuthStore.js';
 import { useEffect } from 'react';
+import ScrollToTop from './utils/ScrollToTop.jsx';
 
 function App() {
   const {isAuthenticated,user,checkAuth}=useAuthStore();
@@ -17,6 +18,7 @@ useEffect(() => {
   console.log(user)
   return (
     <>
+    <ScrollToTop/>
     <Navbar/>
     <Outlet/>
     <Footer/>
