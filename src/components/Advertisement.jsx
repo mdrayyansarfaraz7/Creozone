@@ -18,7 +18,7 @@ function Advertisement() {
         </button>
       </div>
         <div className='px-1 lg:px-8 py-4 '>
-            <img src="/show.png" alt="" className='w-auto h-auto cursor-pointer'/>
+            <img src="/adv2.png" alt="" className='w-auto h-auto cursor-pointer'/>
         </div>
     </div>
   )
