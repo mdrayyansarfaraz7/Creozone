@@ -45,7 +45,7 @@ function ViewStash() {
   }
   const creator = stash.styleChain.find(m => m.role === 'creator')?.designer;
   const collaborators = stash.styleChain
-    .filter(m => m.role === 'collaborator')
+    .filter(m => m.role === 'contributor')
     .map(m => m.designer);
 
   return (

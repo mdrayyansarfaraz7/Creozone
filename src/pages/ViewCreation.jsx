@@ -7,7 +7,6 @@ import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose, PenTool, Loader } from
 import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
 import ScrollToTop from '../utils/ScrollToTop';
-
 function ViewCreation() {
     const { id } = useParams();
     const [creation, setCreation] = useState(null);
@@ -113,7 +112,7 @@ function ViewCreation() {
 
     return (
         <>
-        <ScrollToTop/>
+            <ScrollToTop />
             <div className='hidden md:inline'>
                 <Sidebar username={user ? user.username : creation.author.username} isOwner={isOwner} />
             </div>
@@ -141,30 +140,29 @@ function ViewCreation() {
                                 <div className='flex gap-5'>
                                     <Link to={`/outlook/${id}`}>
                                         <button className="relative bg-rose-500 text-white text-sm rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
-                                        <Eye size={16} className="block lg:hidden" />
-                                        <Eye size={20} className="hidden lg:block" />
-                                        <span className="hidden sm:inline">View Outlooks</span>
+                                            <Eye size={16} className="block lg:hidden" />
+                                            <Eye size={20} className="hidden lg:block" />
+                                            <span className="hidden sm:inline">View Outlooks</span>
 
-                                        {creation?.outlooks?.length > 0 && (
-                                            <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ">
-                                                {creation.outlooks.length}
-                                            </span>
-                                        )}
-                                    </button>
+                                            {creation?.outlooks?.length > 0 && (
+                                                <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ">
+                                                    {creation.outlooks.length}
+                                                </span>
+                                            )}
+                                        </button>
                                     </Link>
 
-                                    {
-                                        user.username != creation.author.username ? (
-                                            <>
-                                                {user && (
-                                                    <button onClick={() => setShowModal(true)} className="relative bg-rose-500 text-white text-sm rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2">
-                                                        <PenTool size={16} className="block lg:hidden" />
-                                                        <PenTool size={20} className="hidden lg:block" />
-                                                        <span className="hidden sm:inline">Add Outlook</span>
-                                                    </button>
-                                                )}
-                                            </>) : (<> </>)
-                                    }
+                                    {user && user.username !== creation.author.username && (
+                                        <button
+                                            onClick={() => setShowModal(true)}
+                                            className="relative bg-rose-500 text-white text-sm rounded-md font-lato px-2 py-1 lg:px-5 lg:py-2 flex gap-2 items-center sm:px-3 sm:py-2"
+                                        >
+                                            <PenTool size={16} className="block lg:hidden" />
+                                            <PenTool size={20} className="hidden lg:block" />
+                                            <span className="hidden sm:inline">Add Outlook</span>
+                                        </button>
+                                    )}
+
 
 
                                 </div>
@@ -203,7 +201,6 @@ function ViewCreation() {
                                                         }
                                                     />
                                                 </div>
-
                                                 <div className="space-y-1">
                                                     <label className="text-sm font-semibold text-gray-700">Optional File</label>
                                                     <input

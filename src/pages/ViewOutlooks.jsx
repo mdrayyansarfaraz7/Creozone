@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { ScaleLoader } from 'react-spinners';
 import { useAuthStore } from '../store/useAuthStore';
@@ -12,8 +12,7 @@ function ViewOutlooks() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [creation, setCreation] = useState(null);
@@ -28,6 +27,8 @@ function ViewOutlooks() {
   const [selectedOutlookId, setSelectedOutlookId] = useState(null);
   const [refineFile, setRefineFile] = useState(null);
   const [refining, setRefining] = useState(false);
+  const [clickedRefinement, setClickedRefinement] = useState({});
+  const [accepting, setAccepting] = useState(false);
 
   const handleRefineSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +54,24 @@ function ViewOutlooks() {
       setRefining(false);
     }
   };
+
+  const handelAccept = async () => {
+    try {
+      const data = {
+        url: displayImg,
+        proposer: clickedRefinement.proposer,
+        creationId: id
+      };
+      setAccepting(true);
+      await axios.post(`http://localhost:8080/api/refinement/accept/${clickedRefinement._id}`, data, { withCredentials: true });
+      setAccepting(false);
+      navigate(`/profile/${user.username}`);
+    } catch (error) {
+      setAccepting(false);
+      alert("something went wrong while accepting");
+      console.log(error);
+    }
+  }
 
   const closeModal = () => {
     setShowModal(false);
@@ -107,9 +126,10 @@ function ViewOutlooks() {
     );
   }
   console.log(outlooks);
+  console.log(clickedRefinement);
   return (
     <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen p-6 gap-6">
-       <ScrollToTop/>
+      <ScrollToTop />
       {user && showModal && (
         <div className="modal modal-open fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="modal-box rounded-xl shadow-xl border border-gray-200 bg-white max-w-lg w-full mx-4">
@@ -180,9 +200,14 @@ function ViewOutlooks() {
             {user &&
               user.username === creation.author?.username &&
               displayImg !== creation.url && (
-                <button className="bg-rose-500 text-white text-sm rounded-md font-lato w-full px-2 py-1 lg:px-5 lg:py-2" onClick={() => (console.log("Accepted"))}>
-                  Accept
+                <button
+                  className="bg-rose-500 text-white text-sm rounded-md font-lato w-full px-2 py-1 lg:px-5 lg:py-2 disabled:opacity-50"
+                  onClick={handelAccept}
+                  disabled={accepting}
+                >
+                  {accepting ? "Accepting..." : "Accept"}
                 </button>
+
               )}
           </div>
         </div>
@@ -305,6 +330,7 @@ function ViewOutlooks() {
               {outlook.refinementRequest?.length > 0 && (
                 <div className="flex gap-4 flex-wrap">
                   {outlook.refinementRequest.map((refine) => (
+
                     <div key={refine._id} className="flex flex-col items-center">
                       <img
                         src={refine.ImgUrl}
@@ -312,6 +338,7 @@ function ViewOutlooks() {
                         className="w-24 h-24 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
                         onClick={() => {
                           window.scrollTo({ top: 0, behavior: 'smooth' });
+                          setClickedRefinement(refine);
                           setTimeout(() => {
                             setDisplayImg(refine.ImgUrl);
                           }, 400);

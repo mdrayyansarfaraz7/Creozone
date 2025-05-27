@@ -44,7 +44,8 @@ function Profile() {
   console.log("Users stash Array:", profileData.stash);
   console.log("Users creations Array:", profileData.creations);
 
-  const acceptedRefinements = profileData?.refinements?.filter((u) => u.status === 'accepted') || [];
+  const acceptedRefinements = profileData?.refinements?.filter((u) => u.id.status === 'accepted') || [];
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[70vh]">
@@ -161,7 +162,7 @@ function Profile() {
               )
             }
           </div>
-          <div className="bg-white shadow rounded-xl p-4 h-auto w-full md:w-72 flex-1">
+          <div className="bg-white shadow rounded-xl px-4 py-6 h-auto w-full md:w-72 flex-1">
             <div className="flex flex-col justify-between h-full">
               <div>
                 <h3 className="text-sm text-gray-500">Refinements Summary</h3>
@@ -179,7 +180,7 @@ function Profile() {
                       : '0%',
                   }}
                 ></div>
-                <p className="absolute inset-0 text-xs text-center text-gray-500">
+                <p className=" text-xs text-center text-gray-500 mt-1">
                   {acceptedRefinements.length > 0
                     ? `${((acceptedRefinements.length / profileData.refinements.length) * 100).toFixed(2)}% Acceptance`
                     : ''}
