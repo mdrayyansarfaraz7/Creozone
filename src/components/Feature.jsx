@@ -1,58 +1,59 @@
-import React from 'react'
+import React from 'react';
 
 function Feature() {
   return (
-    <div className=' flex flex-col gap-8 py-8 px-16'>
-      {/* StyleChain Feature */}
-      <div className='flex flex-col md:flex-row items-center justify-center gap-8'>
-        <div className='w-full md:w-1/3'>
-          <img src="/styleChain.png" alt="StyleChain" className='w-full h-auto cursor-pointer'/>
+    <div className="flex flex-col gap-20 py-16 px-8 md:px-20 bg-white">
+      {/* Feature Block */}
+      {[
+        {
+          title: "StyleChain",
+          headline: "Link Your Visual Language.",
+          description:
+            "StyleChain helps you maintain design consistency across projects. Connect shared elements, update in sync, and simplify your creative process.",
+          image: "/refinements.png",
+        },
+        {
+          title: "OutLooks",
+          headline: "Feedback That Drives Design.",
+          description:
+            "OutLooks organizes ideas, discussions, and reviews in one space. Gain perspectives, refine your vision, and collaborate meaningfully.",
+          image: "/outlooks.png",
+        },
+        {
+          title: "Refinements",
+          headline: "Turn Feedback Into Function.",
+          description:
+            "Refinements let collaborators suggest changes with clarity. Track revisions, upload improvements, and evolve designs with confidence.",
+          image: "/refinements.png",
+        },
+      ].map((feature, index) => (
+        <div
+          key={feature.title}
+          className={`flex flex-col-reverse md:flex-row items-center justify-between gap-10 ${
+            index % 2 === 1 ? 'md:flex-row-reverse' : ''
+          }`}
+        >
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <h2 className="font-oswald text-4xl sm:text-5xl text-slate-900 font-bold">
+              {feature.title === "Refinements" ? "Add " : "Introducing "}
+              <span className="text-rose-600">{feature.title}</span>
+            </h2>
+            <p className="text-lg text-slate-700 mt-3 font-semibold">{feature.headline}</p>
+            <p className="font-lato text-slate-600 mt-2 leading-relaxed max-w-xl">
+              {feature.description}
+            </p>
+          </div>
+          <div className="w-full md:w-1/2">
+            <img
+              src={feature.image}
+              alt={feature.title}
+              className="w-full h-auto rounded-xl shadow-md"
+            />
+          </div>
         </div>
-        <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
-            Introducing <span className='text-rose-600'>StyleChain</span>
-          </h1>
-          <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
-            Enhance your creative process with seamless style management across multiple designs. 
-            With StyleChain, effortlessly maintain consistency and refine visual identity by linking design elements. 
-            Streamline your workflow and ensure your ideas shine through.
-          </p>
-        </div>
-      </div>
-
-      <div className='flex flex-col md:flex-row items-center justify-center gap-8'>
-        <div className='w-full md:w-1/3'>
-          <img src="/outlooks.png" alt="OutLooks" className='w-full h-auto cursor-pointer'/>
-        </div>
-        <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
-            Explore <span className='text-rose-600'>OutLooks</span>
-          </h1>
-          <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
-            Discover valuable insights through detailed feedback and organized discussions. 
-            OutLooks empowers you to analyze perspectives, refine your designs, and connect with creative minds — 
-            making each design iteration stronger and more meaningful.
-          </p>
-        </div>
-      </div>
-
-            {/* Refinement Requests Feature */}
-            <div className='flex flex-col md:flex-row items-center justify-center gap-8'>
-        <div className='w-full md:w-1/3'>
-          <img src="/refinements.png" alt="Refinements" className='w-full h-auto cursor-pointer'/>
-        </div>
-        <div className='w-full md:w-2/3 text-center md:text-left'>
-          <h1 className='font-oswald text-6xl sm:text-7xl text-slate-950 font-bold'>
-            Add <span className='text-rose-600'>Refinements</span>
-          </h1>
-          <p className='font-lato text-slate-700 mt-4 leading-relaxed w-auto lg:w-[700px]'>
-            Refine your designs like never before. Our refinement request system enables collaborators to suggest improvements, 
-            leave comments, and track changes with clarity. Turn feedback into actionable insights for better results.
-          </p>
-        </div>
-      </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default Feature
+export default Feature;

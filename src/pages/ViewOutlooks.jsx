@@ -23,6 +23,36 @@ function ViewOutlooks() {
   const [formData, setFormData] = useState({ feedback: "" });
   const [selectedFile, setSelectedFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showRefineModal, setShowRefineModal] = useState(false);
+  const [selectedOutlookId, setSelectedOutlookId] = useState(null);
+  const [refineFile, setRefineFile] = useState(null);
+  const [refining, setRefining] = useState(false);
+
+  const handleRefineSubmit = async (e) => {
+    e.preventDefault();
+    if (!refineFile || !selectedOutlookId) return;
+
+    const data = new FormData();
+    data.append('userId',user._id);
+    data.append("refinement", refineFile);
+
+    try {
+      setRefining(true);
+      await axios.post(`http://localhost:8080/api/outlook/${selectedOutlookId}`, data, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setRefining(false);
+      setShowRefineModal(false);
+      window.location.reload();
+    } catch (err) {
+      console.error("Error submitting refinement:", err);
+      setRefining(false);
+    }
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -46,6 +76,7 @@ function ViewOutlooks() {
       });
       setSubmitting(false);
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.error('Error submitting outlook:', err);
     }
@@ -57,20 +88,16 @@ function ViewOutlooks() {
         const creationRes = await axios.get(`http://localhost:8080/api/creation/${id}`);
         setCreation(creationRes.data.creationDetails);
         setDisplayImg(creationRes.data.creationDetails.url);
-
         const outlookRes = await axios.get(`http://localhost:8080/api/outlook/${id}`);
         setOutlooks(outlookRes.data.outlooks);
-
         setLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
         setLoading(false);
       }
     };
-
     fetchData();
   }, [id]);
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -141,8 +168,6 @@ function ViewOutlooks() {
           </div>
         </div>
       )}
-
-
       <div className="lg:w-1/4 w-full ">
         <div className="sticky top-6 bg-white h-full rounded-2xl shadow p-4 flex flex-col justify-center items-center">
           <img
@@ -223,7 +248,10 @@ function ViewOutlooks() {
 
                     {user && user.username != creation.author?.username ? (<><button
                       className="bg-rose-500 text-white text-sm px-3 py-1 rounded hover:bg-rose-600 transition"
-                      onClick={() => console.log("Open refinement form")}
+                      onClick={() => {
+                        setSelectedOutlookId(outlook._id);
+                        setShowRefineModal(true);
+                      }}
                     >
                       Refine
                     </button></>) : (<> </>)}
@@ -233,6 +261,42 @@ function ViewOutlooks() {
                   <p className="text-red-500 text-sm">Author info missing</p>
                 )}
               </div>
+              {user && showRefineModal && (
+                <div className="modal modal-open fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+                  <div className="modal-box rounded-xl shadow-xl border border-gray-200 bg-white max-w-lg w-full mx-4">
+                    <h3 className="font-bold text-2xl font-lato text-gray-800 mb-5 text-center">
+                      Upload <span className="text-rose-500">Refinement</span>
+                    </h3>
+                    <form className="flex flex-col gap-4" onSubmit={handleRefineSubmit} encType="multipart/form-data">
+                      <div className="space-y-1">
+                        <label className="text-sm font-semibold text-gray-700">Upload Image</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          required
+                          className="file-input file-input-sm file-input-bordered w-full"
+                          onChange={(e) => setRefineFile(e.target.files[0])}
+                        />
+                      </div>
+                      <div className="modal-action mt-6 flex justify-between">
+                        <button
+                          type="submit"
+                          className="bg-rose-500 text-white btn-sm py-1 px-3 rounded-md text-sm"
+                          disabled={refining}
+                        >
+                          {refining ? (<Loader className="w-5 h-5 animate-spin" />) : (
+                            "Upload"
+                          )}
+                        </button>
+                        <button type="button" onClick={() => setShowRefineModal(false)} className="btn btn-sm btn-outline">
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
 
 
               <p className="text-gray-700 mb-3">{outlook.feedback}</p>
