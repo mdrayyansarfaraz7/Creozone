@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { ScaleLoader } from 'react-spinners';
 import SleekFooter from '../components/SleekFooter';
-import { BrushIcon, ImagePlus, LucideBrush, PenTool, ArrowLeft } from "lucide-react";
+import { BrushIcon, ImagePlus, LucideBrush, PenTool, ArrowLeft, Eye } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import ScrollToTop from '../utils/ScrollToTop';
 
@@ -12,13 +12,9 @@ function ViewStash() {
   const { id } = useParams();
   const [stash, setStash] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [allCreations, setAllCreations] = useState(false);
   const [currentImg, setCurrentImage] = useState('');
+  const [currentCreation, setCurentCreation] = useState([]);
   const navigate = useNavigate();
-
-  const handelCreations = () => {
-    setAllCreations(!allCreations);
-  }
 
   useEffect(() => {
     const fetchStashDetails = async () => {
@@ -26,6 +22,7 @@ function ViewStash() {
         const response = await axios.get(`http://localhost:8080/api/stash/${id}`);
         setStash(response.data.stashDetails);
         setCurrentImage(response.data.stashDetails.thumbnail);
+        setCurentCreation(response.data.stashDetails.creations[0]);
       } catch (error) {
         console.error(error);
       } finally {
@@ -33,9 +30,9 @@ function ViewStash() {
       }
     };
     fetchStashDetails();
-
   }, [id]);
-  console.log(stash);
+  console.log(currentCreation);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -43,165 +40,160 @@ function ViewStash() {
       </div>
     );
   }
-  const creator = stash.styleChain.find(m => m.role === 'creator')?.designer;
-  const collaborators = stash.styleChain
-    .filter(m => m.role === 'contributor')
-    .map(m => m.designer);
 
   return (
     <>
-    <ScrollToTop/>
-      <div className=" p-2 font-sans text-gray-700">
-        <div className="px-2 py-1">
+      <ScrollToTop />
+      <div className="min-h-screen font-sans text-gray-800 bg-white">
+        <div className="px-4 py-2">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 px-5 py-2 border border-gray-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-gray-100 hover:text-slate-800 transition-all duration-200 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
           </button>
         </div>
-
-        <div className="flex flex-col md:flex-row bg-white rounded-lg  overflow-hidden">
-
-          <div className="md:w-3/5 w-full h-auto flex justify-center items-center bg-gray-100">
+        <div className="flex flex-col lg:flex-row h-auto lg:h-[70vh] p-4 gap-6">
+          <div className="w-full lg:w-[40%] bg-gray-100 rounded-md flex flex-col items-center justify-center p-4 max-h-[70vh] overflow-auto">
             <img
               src={currentImg}
-              alt="Thumbnail"
-              className="max-w-[90%] max-h-screen md:max-h-[90vh] rounded-lg object-contain scale-95 transition-transform duration-300"
+              alt="Stash Main"
+              className="max-h-[40vh] max-w-full object-contain"
             />
-          </div>
-          {
-            !allCreations ?
-              (<>
-                <div className="md:w-2/5 w-full p-8 flex flex-col justify-between bg-white shadow-md rounded-r-lg">
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <h1 className="text-3xl font-lato text-gray-900 tracking-tight">
-                        {stash.title}
-                      </h1>
-                    </div>
-                    `<p className="text-sm text-gray-400">
-                      {formatDistanceToNow(new Date(stash.createdAt), { addSuffix: true })}
+
+            {currentCreation?.author && (
+              <div className="mt-4 w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-3 px-2">
+                <div className="flex items-center gap-2">
+                  <p className="text-gray-600 text-sm font-semibold">Designer:</p>
+                  <div className="flex items-center gap-1">
+                    <img
+                      src={currentCreation.author.avatar}
+                      alt="Author Avatar"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <p className="text-gray-700 text-sm max-w-[100px] sm:max-w-none">
+                      {currentCreation.author.username}
                     </p>
-
-                    <p className="text-gray-600  font-light font-lato mb-8 text-xs md:text-sm lg:text-lg text-justify">
-                      {stash.desc}
-                    </p>
-
-                    <div className="flex flex-wrap items-center gap-6 border-t border-gray-200 pt-5">
-                      {creator && (
-                        <div className="flex items-center gap-3">
-                          <p className="font-lato font-medium  text-gray-700">Creator:</p>
-                          <img
-                            src={creator.avatar}
-                            alt="creator"
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                        </div>
-                      )}
-
-                      {collaborators.length > 0 && (
-                        <div className="flex items-center gap-3">
-                          <p className="font-semibold font-oswald text-gray-700 tracking-wide">Collaborators:</p>
-                          {collaborators.map((c, idx) => (
-                            <img
-                              key={idx}
-                              src={c.avatar}
-                              alt={`collaborator-${idx}`}
-                              className="w-10 h-10 rounded-full border border-gray-300 object-cover hover:scale-110 transition-transform duration-300"
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {
-                        stash.creations.slice(0, 4).map((c, i) => {
-                          const commonClass = "w-full max-h-[30vh] object-contain transition-transform duration-300 cursor-pointer";
-
-                          if (i < 3) {
-                            return (
-                              <img
-                                key={i}
-                                src={c.url}
-                                alt={`img-${i}`}
-                                className={`${commonClass} scale-95`}
-                              />
-                            );
-                          }
-
-                          if (i === 3 && stash.creations.length > 4) {
-                            return (
-                              <div
-                                key={i}
-                                className="relative w-full max-h-[30vh] cursor-pointer"
-                              >
-                                <img
-                                  src={c.url}
-                                  alt="extra"
-                                  className="w-full h-full object-contain opacity-40"
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold font-oswald ">
-                                  +{stash.creations.length - 4}
-                                </div>
-                              </div>
-                            );
-                          }
-
-                          return null;
-                        })
-                      }
-                    </div>
-                    <div className="text-right mt-2">
-                      <button className="text-xs text-rose-500 hover:underline font-medium" onClick={handelCreations}>
-                        See All Creations →
-                      </button>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200 cursor-pointer">
-                      <PenTool className="text-rose-600" />
-                      <div>
-                        <p className="font-semibold text-gray-800">View Refinement Request</p>
-                        <p className="text-xs text-gray-500">Submit this design for collaborative improvement</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
-              </>) : (
-                <>
-                  <div className="p-4 md:w-2/4">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {stash.creations.map((c, i) => (
-                        <img
-                          key={i}
-                          src={c.url}
-                          alt={`creation-${i}`}
-                          onClick={() => setCurrentImage(c.url)}
-                          className="w-full max-h-[30vh] object-contain rounded-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
-                        />
-                      ))}
 
-                    </div>
-                    <div className="text-right mt-3">
-                      <button
-                        className="text-xs text-rose-500 hover:underline font-medium"
-                        onClick={handelCreations}
-                      >
-                        See Less ↑
-                      </button>
-                    </div>
+                {/* View Outlooks Button with Badge */}
+                <Link to={`/outlook/${currentCreation._id}`} className="w-full sm:w-auto">
+                  <div className="relative w-full sm:w-auto">
+                    <button className="btn btn-outline w-full sm:w-auto bg-rose-500 text-white hover:bg-rose-600 transition flex justify-center items-center gap-2 py-2 px-4">
+                      <Eye size={16} className="block lg:hidden" />
+                      <Eye size={20} className="hidden lg:block" />
+                      <span>View Outlooks</span>
+                    </button>
+
+                    {currentCreation.outlooks?.length > 0 && (
+                      <span className="badge badge-md badge-warning absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+                        {currentCreation.outlooks.length}
+                      </span>
+                    )}
                   </div>
-                </>)
-          }
+                </Link>
+              </div>
 
+            )}
+          </div>
+
+          <div className="w-full lg:w-1/2 p-2 lg:p-4 space-y-4">
+            <h1 className="text-2xl md:text-3xl font-bold font-lato text-gray-900 mt-2">{stash.title}</h1>
+
+            <div className="flex items-center gap-3">
+              <img src={stash.owner.avatar} alt="owner" className="w-9 h-9 rounded-full object-cover" />
+
+              <div>
+                <p className="font-semibold">{stash.owner.username}</p>
+                <p className="text-sm text-gray-500">{stash.owner.email}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-500">
+              Created {formatDistanceToNow(new Date(stash.createdAt), { addSuffix: true })}
+            </p>
+
+            <p className="text-sm text-gray-700 border-l-2 border-gray-500 pl-3 font-lato">
+              {stash.desc}
+            </p>
+
+            {/* Style Chain */}
+            <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center'>
+              <h2 className="text-base font-lato font-semibold">Style Chain:</h2>
+              <div className="flex items-center space-x-[-10px]">
+                {stash.styleChain.map((m, idx) => (
+                  <img
+                    key={idx}
+                    src={m.designer.avatar}
+                    alt={`designer-${idx}`}
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white -ml-2"
+                    title={`${m.designer.username} (${m.role})`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[150px] sm:h-[170px] transition-transform">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-lg font-medium text-gray-700">Total Creations</h1>
+                  <div className="p-2 bg-rose-100 text-rose-500 rounded-full">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M3 7v13h18V7H3z" />
+                      <path d="M16 3H8v4h8V3z" />
+                    </svg>
+                  </div>
+                </div>
+                <h2 className="text-4xl sm:text-5xl font-bold mt-3 text-gray-800 font-oswald">{stash.creations.length}</h2>
+                <p className="text-xs text-gray-500 mt-1">Designs published</p>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[150px] sm:h-[170px] transition-transform">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-lg font-medium text-gray-700">Total Outlooks</h1>
+                  <div className="p-2 bg-rose-100 text-rose-500 rounded-full">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </div>
+                </div>
+                <h2 className="text-4xl sm:text-5xl font-bold mt-3 text-gray-800 font-oswald">
+                  {stash.creations.reduce((acc, curr) => acc + curr.outlooks.length, 0)}
+                </h2>
+                <p className="text-xs text-gray-500 mt-1">User feedback entries</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <SleekFooter />
-    </>
 
+        {/* Creations Section */}
+        <div className="mt-6 px-4">
+          <h2 className="text-2xl font-bold font-lato text-gray-800 mb-2">Creations</h2>
+          <div className="h-[200px] sm:h-[250px] lg:h-[30vh] bg-gray-100 rounded-md p-3 overflow-x-auto flex gap-3 items-center">
+            {stash.creations.map((c, i) => (
+              <img
+                key={i}
+                src={c.url}
+                alt={`creation-${i}`}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setCurrentImage(c.url)
+                  setCurentCreation(c);
+                }}
+                className="h-full max-w-[180px] sm:max-w-[200px] object-contain rounded-md cursor-pointer hover:opacity-80 transition"
+              />
+            ))}
+          </div>
+        </div>
+
+        <SleekFooter />
+      </div>
+    </>
   );
 }
+
 
 export default ViewStash;
