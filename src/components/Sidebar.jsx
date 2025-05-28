@@ -14,10 +14,20 @@ import {
     ChevronUp,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ isOwner, username }) => {
-    const { user } = useAuthStore();
+    const navigate = useNavigate();
+    const { user, logout } = useAuthStore();
+    const handleLogout = async () => {
+        try {
+            await logout();
+
+            navigate('/');
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const navItems = [
         { icon: <Home size={20} />, label: "Home", url: "/" },
         { icon: <Compass size={20} />, label: "Explore", url: "/" },
@@ -65,7 +75,7 @@ const Sidebar = ({ isOwner, username }) => {
                         </div>
                     </label>
                     <ul tabIndex={0} className="dropdown-content menu menu-sm p-2 shadow bg-base-100 rounded-box w-40 mb-2">
-                        <li>
+                        <li onClick={handleLogout}>
                             <a className="flex items-center gap-2 text-sm px-2 py-1 text-rose-500 hover:bg-transparent">
                                 <LogOut size={16} /> Sign Out
                             </a>
