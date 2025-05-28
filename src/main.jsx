@@ -15,11 +15,17 @@ import ViewStash from './pages/ViewStash.jsx';
 import AllStash from './pages/AllStash.jsx';
 import ViewOutlooks from './pages/ViewOutlooks.jsx';
 import AllStyleChain from './pages/AllStyleChain.jsx';
+import AllRefinementRequest from './pages/AllRefinementRequest.jsx';
+import AllCreatedOutlooks from './pages/AllCreatedOutlooks.jsx';
 let router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />}>
-        <Route path="/create-stash" element={<RedirectIfNotAuth> <CreateStashForm /> </RedirectIfNotAuth> } />
+        <Route path="/create-stash" 
+        element={
+        <RedirectIfNotAuth>
+           <CreateStashForm />
+        </RedirectIfNotAuth>} />
         <Route path="" element={<Home />} />
       </Route>
       <Route path="/login" element={
@@ -32,17 +38,18 @@ let router = createBrowserRouter(
         </RedirectIfAuth>
       } />
       <Route path="/profile/:username" element={<Profile />} />
-      <Route path="/creation/:id" element={<ViewCreation/>}/>
-     <Route path='/stash/:id' element={<ViewStash/>}/>
-     <Route path='/all-stash/:username' element={<AllStash/>}/>
-     <Route path='/your-style-chain/:username' element={<AllStyleChain/>}/>
-     <Route path='/outlook/:id' element={<ViewOutlooks/>}/>
+      <Route path="/creation/:id" element={<ViewCreation />} />
+      <Route path='/stash/:id' element={<ViewStash />} />
+      <Route path='/all-stash/:username' element={<AllStash />} />
+      <Route path='/outlook/:id' element={<ViewOutlooks />} />
+      <Route path='/your-style-chain/:username' element={<RedirectIfNotAuth> <AllStyleChain /> </RedirectIfNotAuth> } />
+      <Route path='/your-outlooks/:username' element={<RedirectIfNotAuth>  <AllCreatedOutlooks/> </RedirectIfNotAuth>}/>
     </>
   )
 );
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </StrictMode>
 );

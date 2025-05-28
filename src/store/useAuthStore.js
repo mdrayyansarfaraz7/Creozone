@@ -22,8 +22,8 @@ export const useAuthStore = create((set) => ({
 
     checkAuth: async () => {
         set({ isCheckingAuth: true, error: null });
-
         try {
+            console.log("coming to checkAuth!")
             const res = await axios.get('http://localhost:8080/api/auth/verify', { withCredentials: true });
             set({ user: res.data.user, isCheckingAuth: false, isAuthenticated: true });
         } catch (error) {

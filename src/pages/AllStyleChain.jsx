@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios';
-import StashCard from '../components/StashCard';
 import { ScaleLoader } from 'react-spinners';
 import {
   BarChart,
@@ -12,25 +11,16 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
   Cell,
 } from 'recharts';
-
-
 function AllStyleChain() {
-  const { user, checkAuth } = useAuthStore();
+  const { user} = useAuthStore();
   const [stash, setStash] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const { username } = useParams();
 
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
   console.log(user);
   const isOwner = user ? true : false;
-
   console.log(isOwner);
   useEffect(() => {
     const fetchStashDetails = async () => {
@@ -121,11 +111,11 @@ function AllStyleChain() {
                         <XAxis dataKey="label" />
                         <YAxis allowDecimals={false} />
                         <Tooltip />
-                    
+
                         <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                          <Cell fill="#f43f5e" /> 
-                          <Cell fill="#3b82f6" /> 
-                          <Cell fill="#fbbf24" /> 
+                          <Cell fill="#f43f5e" />
+                          <Cell fill="#3b82f6" />
+                          <Cell fill="#fbbf24" />
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>

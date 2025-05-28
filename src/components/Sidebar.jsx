@@ -11,6 +11,7 @@ import {
     LogOut,
     Settings,
     EllipsisVertical,
+    ChevronUp,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
@@ -23,9 +24,7 @@ const Sidebar = ({ isOwner, username }) => {
         { icon: <User size={20} />, label: "Profile", url: `/profile/${username}` },
         { icon: <Boxes size={20} />, label: "Stashs", url: `/all-stash/${username}` },
         { icon: <Layers size={20} />, label: "StyleChains", url: `/your-style-chain/${username}` },
-        { icon: <PenTool size={20} />, label: "Refinements", url: "/" },
-        { icon: <Eye size={20} />, label: "Outlooks", url: "/" },
-        
+        { icon: <Eye size={20} />, label: "Outlooks", url: `/your-outlooks/${username}` },
     ];
 
     const filteredItems = isOwner ? navItems : navItems.slice(0, 3);
@@ -62,15 +61,10 @@ const Sidebar = ({ isOwner, username }) => {
                                 className="w-8 h-8 rounded-full object-cover"
                             />
                             <span className="text-xs font-lato hidden md:inline">{user.username}</span>
-                            <ChevronDown size={16} className="hidden md:inline" />
+                            <ChevronUp size={16} className="hidden md:inline" />
                         </div>
                     </label>
                     <ul tabIndex={0} className="dropdown-content menu menu-sm p-2 shadow bg-base-100 rounded-box w-40 mb-2">
-                        <li>
-                            <a className="flex items-center gap-2 text-sm px-2 py-1 hover:bg-transparent">
-                                <Settings size={16} /> Settings
-                            </a>
-                        </li>
                         <li>
                             <a className="flex items-center gap-2 text-sm px-2 py-1 text-rose-500 hover:bg-transparent">
                                 <LogOut size={16} /> Sign Out

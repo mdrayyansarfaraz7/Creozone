@@ -10,6 +10,7 @@ import Masonry from 'react-masonry-css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BentoGrid from "../components/BentoGrid";
+import { formatDistanceToNow } from "date-fns";
 
 function Profile() {
   const { user, checkAuth } = useAuthStore();
@@ -146,7 +147,7 @@ function Profile() {
                     <h3 className="text-sm text-gray-500">Last Updated Stash</h3>
                     <h2 className="text-2xl font-semibold text-gray-800 mt-1">{profileData.stash[profileData.stash.length - 1].title}</h2>
                     <p className="text-xs text-gray-400 mt-1">
-                      {new Date(profileData.stash[profileData.stash.length - 1].updatedAt).toLocaleString()}
+                      {formatDistanceToNow(new Date(profileData.stash[profileData.stash.length - 1].updatedAt), { addSuffix: true })}
                     </p>
                   </div>
                   <div>
