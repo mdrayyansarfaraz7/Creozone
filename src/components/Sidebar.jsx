@@ -20,12 +20,12 @@ const Sidebar = ({ isOwner, username }) => {
     const navItems = [
         { icon: <Home size={20} />, label: "Home", url: "/" },
         { icon: <Compass size={20} />, label: "Explore", url: "/" },
-        { icon: <Boxes size={20} />, label: "Stashs", url: `/all-stash/${username}` },
         { icon: <User size={20} />, label: "Profile", url: `/profile/${username}` },
+        { icon: <Boxes size={20} />, label: "Stashs", url: `/all-stash/${username}` },
+        { icon: <Layers size={20} />, label: "StyleChains", url: `/your-style-chain/${username}` },
         { icon: <PenTool size={20} />, label: "Refinements", url: "/" },
         { icon: <Eye size={20} />, label: "Outlooks", url: "/" },
-        { icon: <BarChart2 size={20} />, label: "Analytics", url: "/" },
-        { icon: <Layers size={20} />, label: "StyleChains", url: "/" },
+        
     ];
 
     const filteredItems = isOwner ? navItems : navItems.slice(0, 3);
