@@ -64,7 +64,7 @@ function Profile() {
 
           <div className="flex-1 w-full h-auto bg-gray-100 rounded-md shadow p-4 ">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform hover:scale-105 duration-200 ease-in-out cursor-pointer">
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform  duration-200 ease-in-out cursor-pointer">
                 <div className="flex justify-between items-center">
                   <h1 className="text-lg font-medium text-gray-700">Stashs</h1>
                   <div className="p-2 bg-rose-100 text-rose-500 rounded-full">
@@ -74,7 +74,7 @@ function Profile() {
                 <h2 className="text-5xl font-bold mt-3 text-gray-800 font-oswald">{profileData.stash.length}</h2>
                 <p className="text-xs text-gray-500 mt-1">Total stash items saved</p>
               </div>
-              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform hover:scale-105 duration-200 ease-in-out cursor-pointer">
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform  duration-200 ease-in-out cursor-pointer">
                 <div className="flex justify-between items-center">
                   <h1 className="text-lg font-medium text-gray-700">Outlooks</h1>
                   <div className="p-2 bg-rose-100 text-rose-500 rounded-full">
@@ -87,7 +87,7 @@ function Profile() {
                 <h2 className="text-5xl font-bold mt-3 text-gray-800 font-oswald">{profileData.outlooks.length}</h2>
                 <p className="text-xs text-gray-500 mt-1">User feedback entries</p>
               </div>
-              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform hover:scale-105 duration-200 ease-in-out cursor-pointer">
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform  duration-200 ease-in-out cursor-pointer">
                 <div className="flex justify-between items-center">
                   <h1 className="text-lg font-medium text-gray-700">Refinements</h1>
                   <div className="p-2 bg-rose-100 text-rose-500 rounded-full">
@@ -102,7 +102,7 @@ function Profile() {
               </div>
 
               {/* Creations */}
-              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform hover:scale-105 duration-200 ease-in-out cursor-pointer">
+              <div className="bg-white p-4 rounded-xl shadow w-full h-[170px] transition-transform duration-200 ease-in-out cursor-pointer">
                 <div className="flex justify-between items-center">
                   <h1 className="text-lg font-medium text-gray-700">Creations</h1>
                   <div className="p-2 bg-rose-100 text-rose-500 rounded-full">

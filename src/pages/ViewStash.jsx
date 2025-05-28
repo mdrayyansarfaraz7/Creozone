@@ -59,7 +59,7 @@ function ViewStash() {
             <img
               src={currentImg}
               alt="Stash Main"
-              className="max-h-[40vh] max-w-full object-contain"
+              className="max-h-[50vh] max-w-full object-contain"
             />
 
             {currentCreation?.author && (
@@ -99,7 +99,7 @@ function ViewStash() {
             )}
           </div>
 
-          <div className="w-full lg:w-1/2 p-2 lg:p-4 space-y-4">
+          <div className="w-full lg:w-[60%] p-2 lg:p-4 space-y-4">
             <h1 className="text-2xl md:text-3xl font-bold font-lato text-gray-900 mt-2">{stash.title}</h1>
 
             <div className="flex items-center gap-3">
@@ -168,10 +168,8 @@ function ViewStash() {
             </div>
           </div>
         </div>
-
-        {/* Creations Section */}
         <div className="mt-6 px-4">
-          <h2 className="text-2xl font-bold font-lato text-gray-800 mb-2">Creations</h2>
+          <h2 className="text-2xl font-bold font-lato text-gray-800 mb-2">All Creations</h2>
           <div className="h-[200px] sm:h-[250px] lg:h-[30vh] bg-gray-100 rounded-md p-3 overflow-x-auto flex gap-3 items-center">
             {stash.creations.map((c, i) => (
               <img
