@@ -276,8 +276,6 @@ function ViewCreation() {
                                         <p className="text-lg font-lato text-gray-600">Stash: {creation.stash.title}</p>
                                     </div>
                                 </Link>
-
-
                                 <div className="flex gap-3 flex-wrap">
                                     {
                                         user && creation.likes.includes(user._id) ? (<>
