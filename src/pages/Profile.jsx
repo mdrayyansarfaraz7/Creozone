@@ -42,6 +42,29 @@ function Profile() {
     Details();
   }, [username]);
 
+if (profileData === null) {
+  return (
+    <div className="flex items-center justify-center h-[70vh] w-full">
+      <div className="bg-white rounded-xl shadow-md p-10 text-center max-w-md">
+        <img
+          src="/Logo Icon.png" 
+          alt="Creozone Logo"
+          className="mx-auto mb-6 w-16 h-16"
+        />
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">User Not Found</h1>
+        <p className="text-gray-600 mb-6">
+          The profile you're looking for doesn't exist or may have been removed.
+        </p>
+        <Link to="/">
+          <button className="px-6 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600 transition-all duration-200">
+            Go to Homepage
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
   console.log("Users stash Array:", profileData.stash);
   console.log("Users creations Array:", profileData.creations);
 
@@ -54,6 +77,7 @@ function Profile() {
       </div>
     );
   }
+
 
   return (
     <div className="flex">

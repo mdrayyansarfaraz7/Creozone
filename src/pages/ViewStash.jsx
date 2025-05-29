@@ -118,8 +118,6 @@ function ViewStash() {
             <p className="text-sm text-gray-700 border-l-2 border-gray-500 pl-3 font-lato">
               {stash.desc}
             </p>
-
-            {/* Style Chain */}
             <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center'>
               <h2 className="text-base font-lato font-semibold">Style Chain:</h2>
               <div className="flex items-center space-x-[-10px]">

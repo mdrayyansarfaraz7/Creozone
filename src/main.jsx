@@ -17,6 +17,7 @@ import ViewOutlooks from './pages/ViewOutlooks.jsx';
 import AllStyleChain from './pages/AllStyleChain.jsx';
 import AllRefinementRequest from './pages/AllRefinementRequest.jsx';
 import AllCreatedOutlooks from './pages/AllCreatedOutlooks.jsx';
+import NotFound from './pages/NotFound.jsx';
 let router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -44,6 +45,7 @@ let router = createBrowserRouter(
       <Route path='/outlook/:id' element={<ViewOutlooks />} />
       <Route path='/your-style-chain/:username' element={<RedirectIfNotAuth> <AllStyleChain /> </RedirectIfNotAuth> } />
       <Route path='/your-outlooks/:username' element={<RedirectIfNotAuth>  <AllCreatedOutlooks/> </RedirectIfNotAuth>}/>
+      <Route path="*" element={<NotFound/>} />
     </>
   )
 );

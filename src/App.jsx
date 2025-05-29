@@ -1,6 +1,6 @@
 import './App.css';
 import {Outlet} from 'react-router-dom'
-import Footer from './components/Footer';
+import SleekFooter from './components/SleekFooter.jsx';
 import Navbar from './components/Navbar';
 import { useAuthStore } from './store/useAuthStore.js';
 import { useEffect } from 'react';
@@ -21,7 +21,7 @@ useEffect(() => {
     <ScrollToTop/>
     <Navbar/>
     <Outlet/>
-    <Footer/>
+    <SleekFooter/>
     </>
 
   );

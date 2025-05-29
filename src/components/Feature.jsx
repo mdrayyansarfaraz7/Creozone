@@ -10,7 +10,7 @@ function Feature() {
           headline: "Link Your Visual Language.",
           description:
             "StyleChain helps you maintain design consistency across projects. Connect shared elements, update in sync, and simplify your creative process.",
-          image: "/refinements.png",
+          image: "/styleChain.png",
         },
         {
           title: "OutLooks",
