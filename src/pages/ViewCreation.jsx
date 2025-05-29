@@ -7,6 +7,8 @@ import { ThumbsUp, Share2, Info, Eye, Send, SidebarClose, PenTool, Loader } from
 import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
 import ScrollToTop from '../utils/ScrollToTop';
+import millify from 'millify';
+
 function ViewCreation() {
     const { id } = useParams();
     const [creation, setCreation] = useState(null);
@@ -101,7 +103,29 @@ function ViewCreation() {
         const palette = colorThief.getPalette(image, 5);
         setColors(palette);
     };
+    const handelLike = async () => {
+        try {
+            await axios.post(`http://localhost:8080/api/creation/like/${id}`, { userId: user?._id }, { withCredentials: true });
+            setCreation(prev => ({
+                ...prev,
+                likes: [...prev.likes, user._id]
+            }));
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
 
+    const handelUnlike = async () => {
+        try {
+            await axios.post(`http://localhost:8080/api/creation/unlike/${id}`, { userId: user?._id }, { withCredentials: true });
+            setCreation(prev => ({
+                ...prev,
+                likes: prev.likes.filter(id => id !== user._id)
+            }));
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -255,9 +279,17 @@ function ViewCreation() {
 
 
                                 <div className="flex gap-3 flex-wrap">
-                                    <button className="btn btn-sm bg-rose-500 text-white hover:bg-rose-600 gap-2">
-                                        <ThumbsUp size={16} /> {creation.likes.length}
-                                    </button>
+                                    {
+                                        user && creation.likes.includes(user._id) ? (<>
+                                            <button className="btn btn-sm bg-rose-700 text-white  gap-2" onClick={handelUnlike}>
+                                                <ThumbsUp size={16} /> {millify(creation.likes.length)}
+                                            </button>
+                                        </>) : (<>
+                                            <button className="btn btn-sm bg-rose-500 text-white hover:bg-rose-600 gap-2" onClick={handelLike}>
+                                                <ThumbsUp size={16} />  {millify(creation.likes.length) }
+                                            </button> </>)
+                                    }
+
                                     <button className="btn btn-sm bg-gray-200 text-gray-500 hover:bg-gray-300 gap-2">
                                         <Send size={16} /> <span className="hidden sm:inline">Share</span>
                                     </button>
