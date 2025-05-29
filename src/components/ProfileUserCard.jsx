@@ -2,6 +2,7 @@ import axios from "axios";
 import { Loader } from "lucide-react";
 import { useRef, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 function ProfileUserCard({ profileData, isOwner }) {
   const {
@@ -18,9 +19,9 @@ function ProfileUserCard({ profileData, isOwner }) {
 
   const { user } = useAuthStore();
   const avatarURL = avatar ? avatar : sex === "Male" ? "/male.png" : "/female.png";
-
+  const navigate=useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(followers.includes(user._id));
+  const [isFollowing, setIsFollowing] = useState(followers.includes(user?._id));
   const [followLoading, setFollowLoading] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +41,9 @@ function ProfileUserCard({ profileData, isOwner }) {
   ];
 
   const handleFollowToggle = async () => {
+    if(!user){
+      navigate('/login');
+    }
     setFollowLoading(true);
     try {
       const url = isFollowing
