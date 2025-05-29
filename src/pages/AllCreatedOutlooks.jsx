@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 import { formatDistanceToNow } from 'date-fns';
+import { ScaleLoader } from 'react-spinners';
 
 function AllCreatedOutlooks() {
   const { user } = useAuthStore();
@@ -35,7 +36,9 @@ function AllCreatedOutlooks() {
         <h1 className="text-2xl font-semibold border-b pb-2">Created Outlooks</h1>
 
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex items-center justify-center h-[70vh]">
+            <ScaleLoader color="#f43f5e" />
+          </div>
         ) : (
           myOutlooks.map((outlook, idx) => (
             <div key={idx} className="border rounded-xl p-4 shadow-sm bg-white">
@@ -59,7 +62,7 @@ function AllCreatedOutlooks() {
                 <p className="mb-2">{outlook.feedback}</p>
 
                 <a
-                  href={`/creation/${outlook.creation}`} 
+                  href={`/creation/${outlook.creation}`}
                   className="inline-block text-rose-600 text-sm font-medium hover:underline mt-1"
                 >
                   View Creation →

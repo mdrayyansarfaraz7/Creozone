@@ -330,21 +330,23 @@ function ViewOutlooks() {
               {outlook.refinementRequest?.length > 0 && (
                 <div className="flex gap-4 flex-wrap">
                   {outlook.refinementRequest.map((refine) => (
+                    refine.status == 'pending' ? (<>
+                      <div key={refine._id} className="flex flex-col items-center">
+                        <img
+                          src={refine.ImgUrl}
+                          alt="refinement"
+                          className="w-24 h-24 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
+                          onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            setClickedRefinement(refine);
+                            setTimeout(() => {
+                              setDisplayImg(refine.ImgUrl);
+                            }, 400);
+                          }}
+                        />
+                      </div>
+                    </>) : (<></>)
 
-                    <div key={refine._id} className="flex flex-col items-center">
-                      <img
-                        src={refine.ImgUrl}
-                        alt="refinement"
-                        className="w-24 h-24 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
-                        onClick={() => {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                          setClickedRefinement(refine);
-                          setTimeout(() => {
-                            setDisplayImg(refine.ImgUrl);
-                          }, 400);
-                        }}
-                      />
-                    </div>
                   ))}
                 </div>
               )}
