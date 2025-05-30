@@ -30,7 +30,7 @@ const Sidebar = ({ isOwner, username }) => {
     };
     const navItems = [
         { icon: <Home size={20} />, label: "Home", url: "/" },
-        { icon: <Compass size={20} />, label: "Explore", url: "/" },
+        { icon: <Compass size={20} />, label: "Explore", url: "/explore-stashes" },
         { icon: <User size={20} />, label: "Profile", url: `/profile/${username}` },
         { icon: <Boxes size={20} />, label: "Stashs", url: `/all-stash/${username}` },
         { icon: <Layers size={20} />, label: "StyleChains", url: `/your-style-chain/${username}` },

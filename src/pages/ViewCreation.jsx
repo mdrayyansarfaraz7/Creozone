@@ -140,7 +140,6 @@ function ViewCreation() {
             <div className='hidden md:inline'>
                 <Sidebar username={user ? user.username : creation.author.username} isOwner={isOwner} />
             </div>
-
             <div className="ml-1 md:ml-52 p-6 max-w-2xl lg:max-w-4xl xl:max-w-[90%] mx-auto">
                 {creation ? (
                     <>

@@ -7,8 +7,16 @@ import SleekFooter from '../components/SleekFooter';
 import { BrushIcon, ImagePlus, LucideBrush, PenTool, ArrowLeft, Eye } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import ScrollToTop from '../utils/ScrollToTop';
+import { useAuthStore } from '../store/useAuthStore';
 
 function ViewStash() {
+
+    const { user, checkAuth } = useAuthStore();
+  
+    useEffect(() => {
+      checkAuth();
+    }, [checkAuth]);
+
   const { id } = useParams();
   const [stash, setStash] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,19 +74,20 @@ function ViewStash() {
               <div className="mt-4 w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-3 px-2">
                 <div className="flex items-center gap-2">
                   <p className="text-gray-600 text-sm font-semibold">Designer:</p>
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={currentCreation.author.avatar}
-                      alt="Author Avatar"
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <p className="text-gray-700 text-sm max-w-[100px] sm:max-w-none">
-                      {currentCreation.author.username}
-                    </p>
-                  </div>
-                </div>
+                  <Link to={`/profile/${currentCreation.author.username}`}>
+                    <div className="flex items-center gap-1">
+                      <img
+                        src={currentCreation.author.avatar}
+                        alt="Author Avatar"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <p className="text-gray-700 text-sm max-w-[100px] sm:max-w-none">
+                        {currentCreation.author.username}
+                      </p>
+                    </div>
+                  </Link>
 
-                {/* View Outlooks Button with Badge */}
+                </div>
                 <Link to={`/outlook/${currentCreation._id}`} className="w-full sm:w-auto">
                   <div className="relative w-full sm:w-auto">
                     <button className="btn btn-outline w-full sm:w-auto bg-rose-500 text-white hover:bg-rose-600 transition flex justify-center items-center gap-2 py-2 px-4">
@@ -101,15 +110,19 @@ function ViewStash() {
 
           <div className="w-full lg:w-[60%] p-2 lg:p-4 space-y-4">
             <h1 className="text-2xl md:text-3xl font-bold font-lato text-gray-900 mt-2">{stash.title}</h1>
+            <Link to={`/profile/${stash.owner.username}`}>
+              <div className="flex items-center gap-3">
 
-            <div className="flex items-center gap-3">
-              <img src={stash.owner.avatar} alt="owner" className="w-9 h-9 rounded-full object-cover" />
+                <img src={stash.owner.avatar} alt="owner" className="w-9 h-9 rounded-full object-cover" />
 
-              <div>
-                <p className="font-semibold">{stash.owner.username}</p>
-                <p className="text-sm text-gray-500">{stash.owner.email}</p>
+                <div>
+                  <p className="font-semibold">{stash.owner.username}</p>
+                  <p className="text-sm text-gray-500">{stash.owner.email}</p>
+                </div>
+
+
               </div>
-            </div>
+            </Link>
 
             <p className="text-xs text-gray-500">
               Created {formatDistanceToNow(new Date(stash.createdAt), { addSuffix: true })}
@@ -118,6 +131,16 @@ function ViewStash() {
             <p className="text-sm text-gray-700 border-l-2 border-gray-500 pl-3 font-lato">
               {stash.desc}
             </p>
+            { <div className="flex flex-wrap gap-3 font-sans">
+      {stash.tags.map((tag, i) => (
+        <span
+          key={i}
+          className="bg-gray-50 text-slate-500 px-4 py-1 rounded-full text-sm font-normal select-none"
+        >
+          #{tag}
+        </span>
+      ))}
+    </div>}
             <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center'>
               <h2 className="text-base font-lato font-semibold">Style Chain:</h2>
               <div className="flex items-center space-x-[-10px]">
@@ -167,7 +190,17 @@ function ViewStash() {
           </div>
         </div>
         <div className="mt-6 px-4">
-          <h2 className="text-2xl font-bold font-lato text-gray-800 mb-2">All Creations</h2>
+                 <div className="flex justify-between items-center mb-2">
+          <h2 className="text-2xl font-bold font-lato text-gray-800">All Creations</h2>
+
+          {user && stash.owner.username === user.username && (
+            <Link to={`/stash/${stash._id}/add-creation`}>
+              <button className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow">
+                + Add Creation
+              </button>
+            </Link>
+          )}
+        </div>
           <div className="h-[200px] sm:h-[250px] lg:h-[30vh] bg-gray-100 rounded-md p-3 overflow-x-auto flex gap-3 items-center">
             {stash.creations.map((c, i) => (
               <img

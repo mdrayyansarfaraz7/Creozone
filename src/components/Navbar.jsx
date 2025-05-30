@@ -24,13 +24,13 @@ export default function Navbar() {
                 </Link>
                 <ul className="hidden lg:flex items-center gap-8 text-zinc-600 font-medium text-sm tracking-tight">
                     <li className="relative group">
-                        <Link to="/stashes" className="transition-colors hover:text-slate-800">
+                        <Link to="/explore-stashes" className="transition-colors hover:text-slate-800">
                             Stashes
                             <span className="block h-[2px] w-0 group-hover:w-full transition-all bg-slate-800 mt-1"></span>
                         </Link>
                     </li>
                     <li className="relative group">
-                        <Link to="/creations" className="transition-colors hover:text-slate-800">
+                        <Link to="/explore-creations" className="transition-colors hover:text-slate-800">
                             Creations
                             <span className="block h-[2px] w-0 group-hover:w-full transition-all bg-slate-800 mt-1"></span>
                         </Link>

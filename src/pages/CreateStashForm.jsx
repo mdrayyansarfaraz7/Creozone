@@ -13,12 +13,11 @@ function CreateStashForm() {
   const [category, setCategory] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [extraImages, setExtraImages] = useState([]);
-  const [extraPreviews, setExtraPreviews] = useState([]);
+  const [tags, setTags] = useState('');
   const [loading, setLoading] = useState(false);
 
   console.log(thumbnail);
-  console.log(extraImages);
+
 
 
   const navigate = useNavigate();
@@ -33,16 +32,10 @@ function CreateStashForm() {
       form.append('desc', desc);
       form.append('category', category);
       form.append('thumbnail', thumbnail);
-
-      if (extraImages.length > 0) {
-        extraImages.forEach((file) => {
-          form.append('images', file);
-        });
-      }
-
+      form.append('tags', tags);
       console.log(form.images);
 
-      await axios.post(`http://localhost:8080/api/stash/create-stash/${user._id}`, form, {
+      const response=await axios.post(`http://localhost:8080/api/stash/create-stash/${user._id}`, form, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data"
@@ -50,7 +43,7 @@ function CreateStashForm() {
       });
 
       setLoading(false);
-      navigate(`/profile/${user.username}`);
+      navigate(`/stash/${response.data.stash._id}`);
 
     } catch (error) {
       console.log(error);
@@ -62,12 +55,6 @@ function CreateStashForm() {
     const file = e.target.files[0];
     setThumbnail(file);
     setThumbnailPreview(URL.createObjectURL(file));
-  };
-
-  const handleExtraImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setExtraImages(files);
-    setExtraPreviews(files.map((file) => URL.createObjectURL(file)));
   };
 
   return (
@@ -134,34 +121,16 @@ function CreateStashForm() {
           </div>
         )}
       </div>
-
-      {/* Extra Images Upload */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-600 mb-2">Further Creations </label>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleExtraImagesChange}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-rose-100 file:text-rose-500 hover:file:bg-rose-200 transition"
-        />
-        {extraPreviews.length > 0 && (
-          <div className="mt-4">
-            <p className="text-sm text-gray-500 mb-2">Image Previews:</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {extraPreviews.map((src, idx) => (
-                <div
-                  key={idx}
-                  className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
-                >
-                  <img src={src} alt={`Extra ${idx}`} className="w-full h-32 object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-      
+        <div className="mb-6">
+  <label className="block text-sm font-medium text-gray-600 mb-2">Tags (comma-separated)</label>
+  <input
+    type="text"
+    value={tags}
+    onChange={(e) => setTags(e.target.value)}
+    placeholder="e.g. modern, colorful, minimal"
+    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-gray-400 transition duration-200"
+  />
+</div>
       <button
         type="submit"
         className="w-full py-2.5 text-rose-500 border border-rose-500 bg-white hover:bg-rose-500 hover:text-white hover:border-white rounded-lg font-medium tracking-wide transition duration-200 flex items-center justify-center"
