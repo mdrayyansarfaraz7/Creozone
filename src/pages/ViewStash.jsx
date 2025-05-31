@@ -8,14 +8,15 @@ import { BrushIcon, ImagePlus, LucideBrush, PenTool, ArrowLeft, Eye } from "luci
 import { useNavigate } from 'react-router-dom';
 import ScrollToTop from '../utils/ScrollToTop';
 import { useAuthStore } from '../store/useAuthStore';
+import { useRef } from 'react';
 
 function ViewStash() {
 
-    const { user, checkAuth } = useAuthStore();
-  
-    useEffect(() => {
-      checkAuth();
-    }, [checkAuth]);
+  const { user, checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const { id } = useParams();
   const [stash, setStash] = useState(null);
@@ -23,7 +24,32 @@ function ViewStash() {
   const [currentImg, setCurrentImage] = useState('');
   const [currentCreation, setCurentCreation] = useState([]);
   const navigate = useNavigate();
+  const fileRef = useRef(null);
+  const [preview, setPreview] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [tags, setTags] = useState('');
+  const [category, setCategory] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
+  const handleCreationSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('creation', fileRef.current.files[0]);
+    formData.append('tags', tags);
+    formData.append('category', category);
+    formData.append('userId', user._id);
+    console.log(selectedFile);
+    try {
+      setSubmitting(true);
+      await axios.post(`http://localhost:8080/api/creation/create/${id}`, formData, { withCredentials: true }, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setSubmitting(false);
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to upload creation:', error);
+    }
+  };
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {
@@ -131,16 +157,16 @@ function ViewStash() {
             <p className="text-sm text-gray-700 border-l-2 border-gray-500 pl-3 font-lato">
               {stash.desc}
             </p>
-            { <div className="flex flex-wrap gap-3 font-sans">
-      {stash.tags.map((tag, i) => (
-        <span
-          key={i}
-          className="bg-gray-50 text-slate-500 px-4 py-1 rounded-full text-sm font-normal select-none"
-        >
-          #{tag}
-        </span>
-      ))}
-    </div>}
+            {<div className="flex flex-wrap gap-3 font-sans">
+              {stash.tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="bg-gray-50 text-slate-500 px-4 py-1 rounded-full text-sm font-normal select-none"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>}
             <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center'>
               <h2 className="text-base font-lato font-semibold">Style Chain:</h2>
               <div className="flex items-center space-x-[-10px]">
@@ -156,7 +182,6 @@ function ViewStash() {
               </div>
             </div>
 
-            {/* Stats Cards */}
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="bg-white p-4 rounded-xl shadow w-full h-[150px] sm:h-[170px] transition-transform">
                 <div className="flex justify-between items-center">
@@ -190,17 +215,112 @@ function ViewStash() {
           </div>
         </div>
         <div className="mt-6 px-4">
-                 <div className="flex justify-between items-center mb-2">
-          <h2 className="text-2xl font-bold font-lato text-gray-800">All Creations</h2>
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-2xl font-bold font-lato text-gray-800">All Creations</h2>
 
-          {user && stash.owner.username === user.username && (
-            <Link to={`/stash/${stash._id}/add-creation`}>
-              <button className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow">
+            {user && stash.owner.username === user.username && (
+
+              <label htmlFor="add-creation-modal" className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow cursor-pointer">
                 + Add Creation
-              </button>
-            </Link>
-          )}
-        </div>
+              </label>
+            )}
+            <input type="checkbox" id="add-creation-modal" className="modal-toggle" />
+            <div className="modal">
+              <div className="modal-box max-w-md bg-base-100 shadow-lg rounded-xl">
+                <h3 className="text-2xl font-semibold mb-4">Add a New <span className='text-rose-500'>Creation</span> </h3>
+
+                <form className="space-y-4" onSubmit={handleCreationSubmit} encType="multipart/form-data">
+                  <div>
+                    <label className="label">
+                      <span className="label-text font-medium">Upload Image</span>
+                    </label>
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      accept="image/*"
+                      required
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setPreview(reader.result);
+                          };
+                          reader.readAsDataURL(file);
+                          setSelectedFile(file);
+                        }
+                      }}
+                      className="file-input file-input-bordered w-full"
+                    />
+                    {preview && (
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-600 mb-1">Preview:</p>
+                        <img
+                          src={preview}
+                          alt="Preview"
+                          className="w-full h-auto rounded-lg border border-gray-300"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Tags Input */}
+                  <div>
+                    <label className="label">
+                      <span className="label-text font-medium">Tags</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., minimal, vector, dark"
+                      className="input input-bordered w-full"
+                      value={tags}
+                      required
+                      onChange={(e) => setTags(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Category Selection */}
+                  <div>
+                    <label className="label">
+                      <span className="label-text font-medium">Category</span>
+                    </label>
+                    <select
+                      className="select select-bordered w-full"
+                      value={category}
+                      required
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="">select category</option>
+                      <option value="logos">logos</option>
+                      <option value="card-designs">card-designs</option>
+                      <option value="branding">branding</option>
+                      <option value="graphics">graphics</option>
+                      <option value="iconography">iconography</option>
+                      <option value="ui-ux-design">ui-ux-design</option>
+                      <option value="mocups">mocups</option>
+                      <option value="print-design">print-design</option>
+                      <option value="packaging">packaging</option>
+                      <option value="news-letter">news-letter</option>
+                    </select>
+                  </div>
+
+
+                  {/* Submit Button */}
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow"
+                    >
+                      {submitting ? (<>Submitting...</>) : (<>Submit Creation</>)}
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+              <label className="modal-backdrop" htmlFor="add-creation-modal"></label>
+            </div>
+
+          </div>
           <div className="h-[200px] sm:h-[250px] lg:h-[30vh] bg-gray-100 rounded-md p-3 overflow-x-auto flex gap-3 items-center">
             {stash.creations.map((c, i) => (
               <img
