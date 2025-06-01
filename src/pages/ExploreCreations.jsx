@@ -30,7 +30,7 @@ function ExploreCreations() {
           <input
             type="text"
             placeholder="Search creations, tags, or designers..."
-            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-transparent transition-all"
           />
           <svg
             className="absolute right-3 top-2.5 h-5 w-5 text-gray-400"

@@ -12,6 +12,7 @@ import {
     Settings,
     EllipsisVertical,
     ChevronUp,
+    Images,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
@@ -30,14 +31,16 @@ const Sidebar = ({ isOwner, username }) => {
     };
     const navItems = [
         { icon: <Home size={20} />, label: "Home", url: "/" },
-        { icon: <Compass size={20} />, label: "Explore", url: "/explore-stashes" },
+        { icon: <Compass size={20} />, label: "Explore Stashes", url: "/explore-stashes" },
+        { icon: <Images size={20}/>, label: "Explore Creations", url: "/explore-creations" },
         { icon: <User size={20} />, label: "Profile", url: `/profile/${username}` },
-        { icon: <Boxes size={20} />, label: "Stashs", url: `/all-stash/${username}` },
+        { icon: <Boxes size={20} />, label: "My Stashs", url: `/all-stash/${username}` },
+        { icon: <Eye size={20} />, label: "My Outlooks", url: `/your-outlooks/${username}` },
         { icon: <Layers size={20} />, label: "StyleChains", url: `/your-style-chain/${username}` },
-        { icon: <Eye size={20} />, label: "Outlooks", url: `/your-outlooks/${username}` },
+
     ];
 
-    const filteredItems = isOwner ? navItems : navItems.slice(0, 3);
+    const filteredItems = isOwner ? navItems : navItems.slice(0, 4);
 
     return (
         <aside className="fixed top-0 left-0 h-screen w-14 md:w-52 bg-base-200 shadow-md flex flex-col justify-between p-3 z-10">

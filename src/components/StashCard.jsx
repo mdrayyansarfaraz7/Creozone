@@ -2,9 +2,9 @@
 
 const StashCard = ({ thumb, title, desc, noCrea, StyleChain }) => {
   return (
-    <div className="flex flex-col md:flex-row bg-white border rounded-lg overflow-hidden max-w-4xl mx-auto p-4 font-lato h-full md:h-64">
- 
-      <div className="w-full md:w-1/3 h-64 md:h-full">
+    <div className="cursor pointer flex flex-col md:flex-row bg-white border rounded-lg overflow-hidden max-w-4xl mx-auto p-4 font-lato h-full md:h-64">
+
+      <div className="w-full md:w-2/3 h-64 md:h-full">
         <img
           src={thumb}
           alt="Stash Thumbnail"
@@ -13,8 +13,11 @@ const StashCard = ({ thumb, title, desc, noCrea, StyleChain }) => {
       </div>
       <div className="flex flex-col justify-between p-4 space-y-2 w-full h-full">
         <div className="flex-1">
-          <h2 className="text-2xl md:text-3xl font-bold font-lato">{title}</h2>
-          <p className="text-gray-700 mt-2 text-sm md:text-base line-clamp-3">
+          <h2 className="text-2xl font-bold font-lato">{title}</h2>
+          <p
+            className="text-gray-700 mt-2 line-clamp-3"
+            style={{ fontSize: "12px" }}
+          >
             {desc}
           </p>
         </div>

@@ -26,9 +26,7 @@ function ViewCreation() {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const imgRef = useRef();
-
-
-
+    
     const [showModal, setShowModal] = useState(false);
 
     const closeModal = () => {

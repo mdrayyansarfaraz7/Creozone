@@ -1,34 +1,71 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import StashCard from '../components/StashCard';
 import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
+import { Link } from 'react-router-dom';
+import { ScaleLoader } from 'react-spinners';
 
 function ExploreStashes() {
   const { user, checkAuth } = useAuthStore();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [stashes, setStashes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [topCreators, setTopCreators] = useState([]);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  const topCreators = [
-    {
-      id: 1,
-      name: 'Alice Johnson',
-      email: 'alice.johnson@example.com',
-      avatarUrl: '/u2.jpeg',
-    },
-    {
-      id: 2,
-      name: 'Bob Smith',
-      email: 'bob.smith@example.com',
-      avatarUrl: '/u3.jpeg',
-    },
-    {
-      id: 3,
-      name: 'Carol White',
-      email: 'carol.white@example.com',
-      avatarUrl: '/u10.jpeg',
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/user/top-creators');
+        setTopCreators(response.data.topCreators);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchFiltered = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(`http://localhost:8080/api/stash/search`, {
+          params: { q: searchTerm }
+        });
+        setStashes(res.data.stashes);
+      } catch (err) {
+        console.error('Error fetching stashes:', err);
+      }
+      setLoading(false);
+    };
+
+    if (searchTerm.trim() !== "") {
+      const timeout = setTimeout(fetchFiltered, 300);
+      return () => clearTimeout(timeout);
+    } else {
+      const fetchAll = async () => {
+        setLoading(true);
+        try {
+          const res = await axios.get(`http://localhost:8080/api/stash/all`);
+          setStashes(res.data.stashes);
+        } catch (err) {
+          console.error('Error fetching all stashes:', err);
+        }
+        setLoading(false);
+      };
+      fetchAll();
+    }
+  }, [searchTerm]);
+
+
+  console.log();
+
+
 
   return (
     <div className="flex min-h-screen bg-gray-50/75">
@@ -48,8 +85,10 @@ function ExploreStashes() {
             <div className="relative">
               <input
                 type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search stashes, creators, or tags..."
-                className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
+                className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-rose-400 focus:border-transparent transition-all"
               />
               <svg
                 className="absolute right-3 top-2.5 h-5 w-5 text-gray-400"
@@ -66,30 +105,61 @@ function ExploreStashes() {
               </svg>
             </div>
           </div>
-         <div className="hidden md:flex rounded-xl w-full md:w-96 bg-white p-6 flex-col gap-6">
+          <div className="hidden md:flex rounded-xl w-full md:w-96 bg-white p-6 flex-col gap-6">
             <h3 className="text-xl font-semibold mb-5 border-b border-gray-300 pb-2 text-gray-800">
               Top Creators
             </h3>
             <div className="flex flex-col gap-4 max-h-72 overflow-y-auto">
               {topCreators.map((creator) => (
-                <div
-                  key={creator.id}
-                  className="flex items-center gap-4 cursor-pointer hover:bg-gray-100 rounded-lg  transition-all duration-300"
-                >
-                  <img
-                    src={creator.avatarUrl}
-                    alt={creator.name}
-                    className="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-300"
-                  />
-                  <div>
-                    <p className="font-semibold text-gray-900">{creator.name}</p>
-                    <p className="text-sm text-gray-500 truncate max-w-xs">{creator.email}</p>
+                <Link to={`/profile/${creator.username}`}>
+                  <div
+                    key={creator._id}
+                    className="flex items-center gap-4 cursor-pointer hover:bg-gray-100 rounded-lg transition-all duration-300"
+                  >
+                    <img
+                      src={creator.avatar}
+                      alt={creator.username}
+                      className="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-300"
+                    />
+                    <div>
+                      <p className="font-semibold text-gray-900">{creator.username}</p>
+                      <p className="text-sm text-gray-500 truncate max-w-xs">{creator.email}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
+
               ))}
             </div>
           </div>
         </div>
+
+        <div className="grid gap-6 mt-8 grid-cols-1 lg:grid-cols-2">
+          {loading ? (
+            <div className="flex justify-center items-center col-span-full py-12">
+              <ScaleLoader color="#f43f5e" />
+            </div>
+          ) : stashes?.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-lg font-semibold text-slate-700">No stashes found </p>
+              <p className="text-sm text-slate-500 mt-1">Try checking back later or create your own stash!</p>
+            </div>
+          ) : (
+            stashes.map((stash) => (
+              <Link to={`/stash/${stash._id}`}>
+                <StashCard
+                  key={stash._id}
+                  thumb={stash.thumbnail}
+                  title={stash.title}
+                  desc={stash.desc}
+                  noCrea={stash.creations.length}
+                  StyleChain={stash.styleChain}
+                />
+              </Link>
+
+            ))
+          )}
+        </div>
+
       </main>
     </div>
   );
