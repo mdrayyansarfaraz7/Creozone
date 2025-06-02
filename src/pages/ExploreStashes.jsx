@@ -62,11 +62,6 @@ function ExploreStashes() {
     }
   }, [searchTerm]);
 
-
-  console.log();
-
-
-
   return (
     <div className="flex min-h-screen bg-gray-50/75">
       <Sidebar username={user?.username} isOwner={!!user} />
