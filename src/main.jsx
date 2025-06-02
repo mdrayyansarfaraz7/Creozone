@@ -20,6 +20,7 @@ import AllCreatedOutlooks from './pages/AllCreatedOutlooks.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ExploreStashes from './pages/ExploreStashes.jsx';
 import ExploreCreations from './pages/ExploreCreations.jsx';
+import Terms from './pages/Terms.jsx';
 let router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -49,6 +50,7 @@ let router = createBrowserRouter(
       <Route path='/your-outlooks/:username' element={<RedirectIfNotAuth>  <AllCreatedOutlooks/> </RedirectIfNotAuth>}/>
       <Route  path='/explore-stashes/' element={<ExploreStashes/>}/>
       <Route  path='/explore-creations/' element={<ExploreCreations/>}/>
+      <Route path='/terms' element={<Terms/>}/>
       <Route path="*" element={<NotFound/>} />
     </>
   )
