@@ -25,10 +25,14 @@ export const useAuthStore = create((set) => ({
         try {
             console.log("coming to checkAuth!")
             const res = await axios.get('http://localhost:8080/api/auth/verify', { withCredentials: true });
+            
             set({ user: res.data.user, isCheckingAuth: false, isAuthenticated: true });
         } catch (error) {
             console.error("Authentication error:", error);
-            set({ error: error.response?.data?.message || 'Something went wrong. Please try again.', isAuthenticated: false, isCheckingAuth: false });
+            set({ error: null,
+                 isAuthenticated: false,
+                  isCheckingAuth: false,
+                 });
         }
     },
 

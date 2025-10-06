@@ -1,5 +1,4 @@
-import React from 'react'
-import { GrGallery } from "react-icons/gr";
+
 
 function Advertisement() {
   return (
@@ -13,9 +12,6 @@ function Advertisement() {
           Creozone equips you with powerful features to streamline and enhance your creative journey.
         </p>
 
-        <button className="bg-rose-600 text-white px-6 py-3 rounded-sm mt-6 hover:bg-rose-700 transition-all font-lato">
-          Explore Features
-        </button>
       </div>
         <div className='px-1 lg:px-8 py-4 '>
             <img src="/adv2.png" alt="" className='w-auto h-auto cursor-pointer'/>

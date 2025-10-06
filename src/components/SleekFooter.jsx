@@ -13,14 +13,6 @@ export default function Footer() {
           </span>
         </div>
 
-        {/* Footer Links */}
-        <div className="flex flex-wrap justify-center space-x-4 text-gray-600">
-          <Link to="/terms" className="hover:text-black transition">Terms</Link>
-          <Link to="/" className="hover:text-black transition">Status</Link>
-          <Link to="/" className="hover:text-black transition">Creator Guide</Link>
-          <Link to="/" className="hover:text-black transition">Contact</Link>
-          <Link to="/" className="hover:text-black transition">Cookie Preferences</Link>
-        </div>
       </div>
     </footer>
   );

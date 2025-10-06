@@ -36,8 +36,8 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li className="relative group">
-                        <Link to="/discover" className="transition-colors hover:text-slate-800">
-                            Discover
+                        <Link to="/terms" className="transition-colors hover:text-slate-800">
+                            Terms
                             <span className="block h-[2px] w-0 group-hover:w-full transition-all bg-slate-800 mt-1"></span>
                         </Link>
                     </li>

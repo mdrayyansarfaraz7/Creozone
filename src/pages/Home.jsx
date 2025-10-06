@@ -4,6 +4,7 @@ import Advertisement from '../components/Advertisement';
 import HeroImg from '../components/HeroImg';
 
 import Categories from '../components/Categories';
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
@@ -26,12 +27,17 @@ function Home() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <button className="bg-rose-600 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-lato font-semibold hover:bg-rose-700 transition-all">
-                Explore Designs
-              </button>
-              <button className="border border-rose-600 text-rose-600 px-6 py-3 rounded-full font-lato font-semibold hover:bg-rose-50 transition-all">
-                Contribute Yours
-              </button>
+              <Link to='/explore-creations'>
+                <button className="bg-rose-600 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-lato font-semibold hover:bg-rose-700 transition-all">
+                  Explore Designs
+                </button>
+              </Link>
+              <Link to='/explore-stashes'>
+                <button className="border border-rose-600 text-rose-600 px-6 py-3 rounded-full font-lato font-semibold hover:bg-rose-50 transition-all">
+                  Contribute Yours
+                </button>
+              </Link>
+
             </div>
           </div>
           <div className="w-full lg:w-1/2 hidden md:flex relative justify-center">
@@ -42,8 +48,8 @@ function Home() {
       </div>
       <Advertisement />
       <Feature />
-    <Categories/>
-     
+      <Categories />
+
 
     </>
   );

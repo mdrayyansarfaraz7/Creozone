@@ -1,9 +1,15 @@
 import React from 'react';
 import { DocumentTextIcon, ShieldCheckIcon, ScaleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import Navbar from '../components/Navbar';
 
 function Terms() {
     return (
-        <div className="min-h-screen bg-white text-gray-900 px-6 md:px-24 py-16 max-w-5xl mx-auto font-lato">
+        <>
+        <Navbar />
+                <div className="min-h-screen bg-white text-gray-900 px-6 md:px-24 py-16 max-w-5xl mx-auto font-lato">
+
+            
+
             {/* Hero Section */}
             <header className="flex flex-col md:flex-row items-center gap-8 mb-16">
                 <div className="md:w-1/2 text-center md:text-left">
@@ -79,6 +85,8 @@ function Terms() {
                 Last updated: June 1, 2025
             </footer>
         </div>
+        </>
+
     );
 }
 

@@ -8,6 +8,8 @@ import { useAuthStore } from '../store/useAuthStore';
 import Sidebar from '../components/Sidebar';
 import ScrollToTop from '../utils/ScrollToTop';
 import millify from 'millify';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 function ViewCreation() {
     const { id } = useParams();
@@ -26,7 +28,7 @@ function ViewCreation() {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const imgRef = useRef();
-    
+
     const [showModal, setShowModal] = useState(false);
 
     const closeModal = () => {
@@ -63,6 +65,18 @@ function ViewCreation() {
     }, [checkAuth]);
 
     const isOwner = user ? true : false;
+
+    const handleShare = async () => {
+        try {
+            const currentUrl = window.location.href;
+            await navigator.clipboard.writeText(currentUrl);
+            toast.success('URL copied to clipboard!');
+        } catch (err) {
+            toast.error('Failed to copy URL.');
+            console.error(err);
+        }
+    };
+
 
     useEffect(() => {
         const fetchCreationDetails = async () => {
@@ -134,6 +148,10 @@ function ViewCreation() {
 
     return (
         <>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
             <ScrollToTop />
             <div className='hidden md:inline'>
                 <Sidebar username={user ? user.username : creation.author.username} isOwner={isOwner} />
@@ -281,11 +299,11 @@ function ViewCreation() {
                                             </button>
                                         </>) : (<>
                                             <button className="btn btn-sm bg-rose-500 text-white hover:bg-rose-600 gap-2" onClick={handelLike}>
-                                                <ThumbsUp size={16} />  {millify(creation.likes.length) }
+                                                <ThumbsUp size={16} />  {millify(creation.likes.length)}
                                             </button> </>)
                                     }
 
-                                    <button className="btn btn-sm bg-gray-200 text-gray-500 hover:bg-gray-300 gap-2">
+                                    <button onClick={handleShare} className="btn btn-sm bg-gray-200 text-gray-500 hover:bg-gray-300 gap-2">
                                         <Send size={16} /> <span className="hidden sm:inline">Share</span>
                                     </button>
                                     <label htmlFor="more-info-modal" className="btn btn-sm bg-gray-200 text-gray-500 hover:bg-gray-300 gap-2">
