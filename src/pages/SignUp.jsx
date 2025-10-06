@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useAuthStore } from '../store/useAuthStore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from 'lucide-react';
 
 
@@ -110,7 +110,8 @@ function SignUp() {
         <br />
         <p className="text-sm text-gray-600 mt-6">
           Already have an account?{' '}
-          <a href="/login" className="text-rose-600 font-medium hover:underline">Log in</a>
+          <Link to={"/login"} className="text-rose-600 font-medium hover:underline">Log in</Link>
+          
         </p>
 
       </div>

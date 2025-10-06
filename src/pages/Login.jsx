@@ -110,12 +110,9 @@ function Login() {
         {/* Footer link */}
         <p className="text-sm text-gray-600 mt-6">
           Don't have an account?{' '}
-          <a
-            href="/signup"
-            className="text-rose-600 font-medium hover:underline"
-          >
-            Sign Up
-          </a>
+          <Link to={"/signup"} className="text-rose-600 font-medium hover:underline">
+          Sign Up
+          </Link>
         </p>
       </div>
 
