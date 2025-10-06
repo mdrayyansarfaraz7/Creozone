@@ -19,10 +19,10 @@ const categories = [
   'news-letter',
 ];
 
-function ExploreCreations() {
+function ExploreCreations({cat=''}) {
   const { user, checkAuth } = useAuthStore();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(cat);
   const [creation, setCreation] = useState([]);
   const [loading, setLoading] = useState(false);
   const [featuredCreator, setFeaturedCreator] = useState(null);

@@ -40,7 +40,7 @@ const Sidebar = ({ isOwner, username }) => {
 
     ];
 
-    const filteredItems = isOwner ? navItems : navItems.slice(0, 4);
+    const filteredItems = isOwner ? navItems : navItems.slice(0, 3);
 
     return (
         <aside className="fixed top-0 left-0 h-screen w-14 md:w-52 bg-base-200 shadow-md flex flex-col justify-between p-3 z-10">

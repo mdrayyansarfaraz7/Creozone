@@ -30,6 +30,7 @@ function ExploreStashes() {
     fetchData();
   }, []);
 
+
   useEffect(() => {
     const fetchFiltered = async () => {
       setLoading(true);
@@ -112,10 +113,11 @@ function ExploreStashes() {
                     className="flex items-center gap-4 cursor-pointer hover:bg-gray-100 rounded-lg transition-all duration-300"
                   >
                     <img
-                      src={creator.avatar}
+                      src={creator.avatar || (creator.sex=='Male'?"/male.png":"/female.png")}
                       alt={creator.username}
                       className="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-300"
                     />
+
                     <div>
                       <p className="font-semibold text-gray-900">{creator.username}</p>
                       <p className="text-sm text-gray-500 truncate max-w-xs">{creator.email}</p>

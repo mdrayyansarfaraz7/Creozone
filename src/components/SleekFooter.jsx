@@ -16,13 +16,10 @@ export default function Footer() {
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center space-x-4 text-gray-600">
           <Link to="/terms" className="hover:text-black transition">Terms</Link>
-          <Link to="/" className="hover:text-black transition">Privacy</Link>
-          <Link to="/" className="hover:text-black transition">Design Safety</Link>
           <Link to="/" className="hover:text-black transition">Status</Link>
           <Link to="/" className="hover:text-black transition">Creator Guide</Link>
           <Link to="/" className="hover:text-black transition">Contact</Link>
           <Link to="/" className="hover:text-black transition">Cookie Preferences</Link>
-          <Link to="/" className="hover:text-black transition">Do not share my designs</Link>
         </div>
       </div>
     </footer>

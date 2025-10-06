@@ -65,8 +65,6 @@ if (profileData === null) {
   );
 }
 
-  console.log("Users stash Array:", profileData.stash);
-  console.log("Users creations Array:", profileData.creations);
 
   const acceptedRefinements = profileData?.refinements?.filter((u) => u.id.status === 'accepted') || [];
   

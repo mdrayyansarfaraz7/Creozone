@@ -80,7 +80,9 @@ function ProfileUserCard({ profileData, isOwner }) {
     try {
       const form = new FormData();
       form.append("sex", formData.sex || "Male");
+      if(formData.designerType!=undefined){
       form.append("designerType", formData.designerType);
+      }
       formData.tools.forEach((tool) => form.append("tools[]", tool));
       if (selectedFile) form.append("image", selectedFile);
 
