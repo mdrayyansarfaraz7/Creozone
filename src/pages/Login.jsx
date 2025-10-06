@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from 'lucide-react';
 
 function Login() {
