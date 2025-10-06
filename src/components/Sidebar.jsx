@@ -32,7 +32,7 @@ const Sidebar = ({ isOwner, username }) => {
     const navItems = [
         { icon: <Home size={20} />, label: "Home", url: "/" },
         { icon: <Compass size={20} />, label: "Explore Stashes", url: "/explore-stashes" },
-        { icon: <Images size={20}/>, label: "Explore Creations", url: "/explore-creations" },
+        { icon: <Images size={20} />, label: "Explore Creations", url: "/explore-creations" },
         { icon: <User size={20} />, label: "Profile", url: `/profile/${username}` },
         { icon: <Boxes size={20} />, label: "My Stashs", url: `/all-stash/${username}` },
         { icon: <Eye size={20} />, label: "My Outlooks", url: `/your-outlooks/${username}` },
@@ -48,17 +48,19 @@ const Sidebar = ({ isOwner, username }) => {
                 <img src="/Logo Icon.png" alt="Logo" className="h-10 mb-8" />
                 <ul className="space-y-2">
                     {filteredItems.map((item, i) => (
-                        <Link to={item.url}>
-                            <li
-                                key={i}
-                                className="rounded-md hover:bg-transparent border border-base-100 hover:border-rose-500 transition-all duration-200"
+                        <li
+                            key={i}
+                            className="rounded-md hover:bg-transparent border border-base-100 hover:border-rose-500 transition-all duration-200"
+                        >
+                            <Link
+                                to={item.url}
+                                className="flex items-center gap-3 font-lato text-sm px-2 py-2 text-black cursor-pointer"
                             >
-                                <a className="flex items-center gap-3 font-lato text-sm px-2 py-2 text-black cursor-pointer">
-                                    <span className="text-gray-800">{item.icon}</span>
-                                    <span className="hidden md:inline">{item.label}</span>
-                                </a>
-                            </li>
-                        </Link>
+                                <span className="text-gray-800">{item.icon}</span>
+                                <span className="hidden md:inline">{item.label}</span>
+                            </Link>
+                        </li>
+
 
                     ))}
                 </ul>
