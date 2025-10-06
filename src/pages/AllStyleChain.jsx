@@ -25,7 +25,7 @@ function AllStyleChain() {
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/stash/all-stashes/${username}`);
+        const response = await axios.get(`https://creozone-backend.onrender.com/api/stash/all-stashes/${username}`);
         setStash(response.data.allStashes);
       } catch (error) {
         console.error(error);
@@ -85,8 +85,9 @@ function AllStyleChain() {
                     <div className="flex items-center -space-x-4">
                       {s.styleChain?.map((entry) => (
                         <div key={entry._id} className="relative group">
+                  
                           <img
-                            src={entry.designer.avatar}
+                            src={entry.designer.avatar? entry.designer.avatar : (entry.designer.sex==='Female'?'/female.png':'male.png')}
                             alt={entry.role}
                             className="w-10 h-10 rounded-full border-2 border-white shadow-md hover:z-10 transition"
                           />

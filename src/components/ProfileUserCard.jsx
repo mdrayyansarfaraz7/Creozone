@@ -47,8 +47,8 @@ function ProfileUserCard({ profileData, isOwner }) {
     setFollowLoading(true);
     try {
       const url = isFollowing
-        ? `http://localhost:8080/api/user/unfollow/${username}`
-        : `http://localhost:8080/api/user/follow/${username}`;
+        ? `https://creozone-backend.onrender.com/api/user/unfollow/${username}`
+        : `https://creozone-backend.onrender.com/api/user/follow/${username}`;
 
       await axios.post(url, { userId: user._id }, { withCredentials: true });
       setIsFollowing(!isFollowing);
@@ -86,7 +86,7 @@ function ProfileUserCard({ profileData, isOwner }) {
       formData.tools.forEach((tool) => form.append("tools[]", tool));
       if (selectedFile) form.append("image", selectedFile);
 
-      await axios.put(`http://localhost:8080/api/user/${id}`, form, {
+      await axios.put(`https://creozone-backend.onrender.com/api/user/${id}`, form, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" }
       });

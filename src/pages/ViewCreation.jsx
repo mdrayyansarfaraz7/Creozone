@@ -47,7 +47,7 @@ function ViewCreation() {
 
         try {
             setSubmitting(true);
-            await axios.post(`http://localhost:8080/api/outlook/create-outlook/${id}`, data, {
+            await axios.post(`https://creozone-backend.onrender.com/api/outlook/create-outlook/${id}`, data, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -81,12 +81,12 @@ function ViewCreation() {
     useEffect(() => {
         const fetchCreationDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/creation/${id}`);
+                const response = await axios.get(`https://creozone-backend.onrender.com/api/creation/${id}`);
                 const data = response.data.creationDetails;
                 setCreation(data);
                 setLoading(false);
                 if (data && data.category) {
-                    const suggestedRes = await axios.get(`http://localhost:8080/api/creation/categorycreations/${data.category}`);
+                    const suggestedRes = await axios.get(`https://creozone-backend.onrender.com/api/creation/categorycreations/${data.category}`);
                     const allCategoryCreations = suggestedRes.data.creations;
                     const related = allCategoryCreations
                         .filter((item) => item._id !== data._id)
@@ -117,7 +117,7 @@ function ViewCreation() {
     };
     const handelLike = async () => {
         try {
-            await axios.post(`http://localhost:8080/api/creation/like/${id}`, { userId: user?._id }, { withCredentials: true });
+            await axios.post(`https://creozone-backend.onrender.com/api/creation/like/${id}`, { userId: user?._id }, { withCredentials: true });
             setCreation(prev => ({
                 ...prev,
                 likes: [...prev.likes, user._id]
@@ -129,7 +129,7 @@ function ViewCreation() {
 
     const handelUnlike = async () => {
         try {
-            await axios.post(`http://localhost:8080/api/creation/unlike/${id}`, { userId: user?._id }, { withCredentials: true });
+            await axios.post(`https://creozone-backend.onrender.com/api/creation/unlike/${id}`, { userId: user?._id }, { withCredentials: true });
             setCreation(prev => ({
                 ...prev,
                 likes: prev.likes.filter(id => id !== user._id)
@@ -165,7 +165,7 @@ function ViewCreation() {
                                 <Link to={`/profile/${creation.author.username}`}>
                                     <div className="flex items-center gap-3">
                                         <img
-                                            src={creation.author.avatar}
+                                            src={creation.author.avatar? creation.author.avatar :( creation.author.sex==='male'?'/male.png':'/female.png')}
                                             alt="avatar"
                                             className="w-10 h-10 rounded-full"
                                         />

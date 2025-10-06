@@ -40,7 +40,7 @@ function ViewOutlooks() {
 
     try {
       setRefining(true);
-      await axios.post(`http://localhost:8080/api/outlook/${selectedOutlookId}`, data, {
+      await axios.post(`https://creozone-backend.onrender.com/api/outlook/${selectedOutlookId}`, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -63,7 +63,7 @@ function ViewOutlooks() {
         creationId: id
       };
       setAccepting(true);
-      await axios.post(`http://localhost:8080/api/refinement/accept/${clickedRefinement._id}`, data, { withCredentials: true });
+      await axios.post(`https://creozone-backend.onrender.com/api/refinement/accept/${clickedRefinement._id}`, data, { withCredentials: true });
       setAccepting(false);
       navigate(`/profile/${user.username}`);
     } catch (error) {
@@ -88,7 +88,7 @@ function ViewOutlooks() {
 
     try {
       setSubmitting(true);
-      await axios.post(`http://localhost:8080/api/outlook/create-outlook/${id}`, data, {
+      await axios.post(`https://creozone-backend.onrender.com/api/outlook/create-outlook/${id}`, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data"
@@ -105,10 +105,10 @@ function ViewOutlooks() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const creationRes = await axios.get(`http://localhost:8080/api/creation/${id}`);
+        const creationRes = await axios.get(`https://creozone-backend.onrender.com/api/creation/${id}`);
         setCreation(creationRes.data.creationDetails);
         setDisplayImg(creationRes.data.creationDetails.url);
-        const outlookRes = await axios.get(`http://localhost:8080/api/outlook/${id}`);
+        const outlookRes = await axios.get(`https://creozone-backend.onrender.com/api/outlook/${id}`);
         setOutlooks(outlookRes.data.outlooks);
         setLoading(false);
       } catch (err) {
@@ -125,8 +125,7 @@ function ViewOutlooks() {
       </div>
     );
   }
-  console.log(outlooks);
-  console.log(clickedRefinement);
+
   return (
     <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen p-6 gap-6">
       <ScrollToTop />
@@ -224,7 +223,7 @@ function ViewOutlooks() {
         <div className="flex items-center gap-3 mt-4 mb-6 justify-between">
           <Link to={`/profile/${creation.author?.username}`} className="flex items-center gap-3">
             <img
-              src={creation.author?.avatar}
+              src={creation.author?.avatar ? creation.author?.avatar : (creation.author.sex==='male'?'/male.png':'/female.png')}
               alt="avatar"
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -259,7 +258,7 @@ function ViewOutlooks() {
                     <Link to={`/profile/${outlook.author.username}`}>
                       <div className="flex items-center gap-3">
                         <img
-                          src={outlook.author.avatar}
+                          src={outlook.author.avatar? outlook.author.avatar : (outlook.author.sex==='male'?'/male.png':'/female.png')}
                           alt="avatar"
                           className="w-10 h-10 rounded-full object-cover"
                         />

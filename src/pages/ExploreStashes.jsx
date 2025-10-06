@@ -20,7 +20,7 @@ function ExploreStashes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/user/top-creators');
+        const response = await axios.get('https://creozone-backend.onrender.com/api/user/top-creators');
         setTopCreators(response.data.topCreators);
       } catch (error) {
         console.error(error);
@@ -35,7 +35,7 @@ function ExploreStashes() {
     const fetchFiltered = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8080/api/stash/search`, {
+        const res = await axios.get(`https://creozone-backend.onrender.com/api/stash/search`, {
           params: { q: searchTerm }
         });
         setStashes(res.data.stashes);
@@ -52,7 +52,7 @@ function ExploreStashes() {
       const fetchAll = async () => {
         setLoading(true);
         try {
-          const res = await axios.get(`http://localhost:8080/api/stash/all`);
+          const res = await axios.get(`https://creozone-backend.onrender.com/api/stash/all`);
           setStashes(res.data.stashes);
         } catch (err) {
           console.error('Error fetching all stashes:', err);
@@ -106,8 +106,8 @@ function ExploreStashes() {
               Top Creators
             </h3>
             <div className="flex flex-col gap-4 max-h-72 overflow-y-auto">
-              {topCreators.map((creator) => (
-                <Link to={`/profile/${creator.username}`}>
+              {topCreators.map((creator,i) => (
+                <Link to={`/profile/${creator.username}`} key={i}>
                   <div
                     key={creator._id}
                     className="flex items-center gap-4 cursor-pointer hover:bg-gray-100 rounded-lg transition-all duration-300"
@@ -141,8 +141,8 @@ function ExploreStashes() {
               <p className="text-sm text-slate-500 mt-1">Try checking back later or create your own stash!</p>
             </div>
           ) : (
-            stashes.map((stash) => (
-              <Link to={`/stash/${stash._id}`}>
+            stashes.map((stash,i) => (
+              <Link to={`/stash/${stash._id}`} key={i}>
                 <StashCard
                   key={stash._id}
                   thumb={stash.thumbnail}

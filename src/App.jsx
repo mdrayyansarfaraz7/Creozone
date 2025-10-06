@@ -11,7 +11,6 @@ function App() {
   const {  checkAuth } = useAuthStore();
 
   useEffect(() => {
-    console.log("Calling checkAuth...");
     checkAuth();
   }, [checkAuth]);
 

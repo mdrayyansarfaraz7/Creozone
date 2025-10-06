@@ -12,7 +12,7 @@ export const useAuthStore = create((set) => ({
         set({ isLoading: true, error: null })
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/signup', { password, email, username }, { withCredentials: true })
+            const response = await axios.post('https://creozone-backend.onrender.com/api/auth/signup', { password, email, username }, { withCredentials: true })
             set({ user: response.data.user, isAuthenticated: true, isLoading: false })
         } catch (error) {
             set({ error: error.response.data.message || 'Something went Wrong in Signing up', isLoading: false })
@@ -25,7 +25,7 @@ checkAuth: async () => {
 
   try {
     console.log("coming to checkAuth!");
-    const res = await axios.get('http://localhost:8080/api/auth/verify', {
+    const res = await axios.get('https://creozone-backend.onrender.com/api/auth/verify', {
       withCredentials: true,
     });
 
@@ -61,7 +61,8 @@ checkAuth: async () => {
         set({ isLoading: true, error: null })
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/login', { password, email }, { withCredentials: true })
+            const response = await axios.post('https://creozone-backend.onrender.com/api/auth/login', { password, email }, { withCredentials: true })
+            console.log(response);
             set({ user: response.data.user, isAuthenticated: true, isLoading: false })
         } catch (error) {
             set({ error: error.response.data.message || 'Something went Wrong while Login ', isLoading: false })
@@ -72,7 +73,7 @@ checkAuth: async () => {
         set({ isLoading: true, error: null });
         try {
 
-            await axios.post('http://localhost:8080/api/auth/logout', {}, { withCredentials: true });
+            await axios.post('https://creozone-backend.onrender.com/api/auth/logout', {}, { withCredentials: true });
 
             set({
                 user: null,

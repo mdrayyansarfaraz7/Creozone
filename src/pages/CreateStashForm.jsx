@@ -10,22 +10,18 @@ function CreateStashForm() {
   const { user } = useAuthStore();
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('logos');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [tags, setTags] = useState('');
   const [loading, setLoading] = useState(false);
-
-  console.log(thumbnail);
-
-
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(loading);
+    console.log("Loading: ",loading);
     try {
       const form = new FormData();
       form.append('title', title);
@@ -35,12 +31,13 @@ function CreateStashForm() {
       form.append('tags', tags);
       console.log(form.images);
 
-      const response=await axios.post(`http://localhost:8080/api/stash/create-stash/${user._id}`, form, {
+      const response=await axios.post(`https://creozone-backend.onrender.com/api/stash/create-stash/${user._id}`, form, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data"
         }
       });
+      console.log(response.data);
 
       setLoading(false);
       navigate(`/stash/${response.data.stash._id}`);
@@ -126,6 +123,7 @@ function CreateStashForm() {
   <input
     type="text"
     value={tags}
+    required
     onChange={(e) => setTags(e.target.value)}
     placeholder="e.g. modern, colorful, minimal"
     className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-gray-400 transition duration-200"

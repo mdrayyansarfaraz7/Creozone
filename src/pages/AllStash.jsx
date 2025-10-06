@@ -24,7 +24,7 @@ function AllStash() {
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/stash/all-stashes/${username}`);
+        const response = await axios.get(`https://creozone-backend.onrender.com/api/stash/all-stashes/${username}`);
         setStash(response.data.allStashes);
       } catch (error) {
         console.error(error);

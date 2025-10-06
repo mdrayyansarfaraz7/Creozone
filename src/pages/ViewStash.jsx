@@ -41,7 +41,7 @@ function ViewStash() {
     console.log(selectedFile);
     try {
       setSubmitting(true);
-      await axios.post(`http://localhost:8080/api/creation/create/${id}`, formData, { withCredentials: true }, {
+      await axios.post(`https://creozone-backend.onrender.com/api/creation/create/${id}`, formData, { withCredentials: true }, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setSubmitting(false);
@@ -53,7 +53,7 @@ function ViewStash() {
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/stash/${id}`);
+        const response = await axios.get(`https://creozone-backend.onrender.com/api/stash/${id}`);
         setStash(response.data.stashDetails);
         setCurrentImage(response.data.stashDetails.thumbnail);
         setCurentCreation(response.data.stashDetails.creations[0]);
@@ -103,7 +103,7 @@ function ViewStash() {
                   <Link to={`/profile/${currentCreation.author.username}`}>
                     <div className="flex items-center gap-1">
                       <img
-                        src={currentCreation.author.avatar}
+                        src={currentCreation.author.avatar ? currentCreation.author.avatar :( currentCreation.author.sex==='male'?'/male.png':'/female.png')}
                         alt="Author Avatar"
                         className="w-8 h-8 rounded-full object-cover"
                       />
@@ -139,7 +139,7 @@ function ViewStash() {
             <Link to={`/profile/${stash.owner.username}`}>
               <div className="flex items-center gap-3">
 
-                <img src={stash.owner.avatar} alt="owner" className="w-9 h-9 rounded-full object-cover" />
+                <img src={stash.owner.avatar ? stash.owner.avatar : (stash.owner.sex==='male'?'/male.png':'/female.png')} alt="owner" className="w-9 h-9 rounded-full object-cover" />
 
                 <div>
                   <p className="font-semibold">{stash.owner.username}</p>
@@ -173,7 +173,7 @@ function ViewStash() {
                 {stash.styleChain.map((m, idx) => (
                   <img
                     key={idx}
-                    src={m.designer.avatar}
+                    src={m.designer.avatar? m.designer.avatar : ( m.designer.sex==='male'?'/male.png':'/female.png')}
                     alt={`designer-${idx}`}
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white -ml-2"
                     title={`${m.designer.username} (${m.role})`}

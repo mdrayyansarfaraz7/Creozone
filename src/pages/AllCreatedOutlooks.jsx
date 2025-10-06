@@ -15,7 +15,7 @@ function AllCreatedOutlooks() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/${username}`);
+        const response = await axios.get(`https://creozone-backend.onrender.com/api/user/${username}`);
         setUserDetails(response.data.userDetails);
       } catch (error) {
         console.error(error);
@@ -27,6 +27,7 @@ function AllCreatedOutlooks() {
   }, [username]);
 
   const myOutlooks = userDetails.outlooks || [];
+  console.log(myOutlooks);
 
   return (
     <div className="flex font-lato text-gray-800">
@@ -44,11 +45,7 @@ function AllCreatedOutlooks() {
             <div key={idx} className="border rounded-xl p-4 shadow-sm bg-white">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={outlook.author?.avatar}
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+
                   <div>
                     <p className="font-medium">{outlook.author?.username}</p>
                     <p className="text-sm text-gray-500">

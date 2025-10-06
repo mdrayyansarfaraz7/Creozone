@@ -34,7 +34,7 @@ function ExploreCreations({cat=''}) {
   useEffect(() => {
     const fetchCreator = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/user/top-creators');
+        const response = await axios.get('https://creozone-backend.onrender.com/api/user/top-creators');
         setFeaturedCreator(response.data?.topCreators?.[0] || null);
       } catch (error) {
         console.error('Error fetching top creator:', error);
@@ -48,7 +48,7 @@ function ExploreCreations({cat=''}) {
     const fetchFiltered = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8080/api/creation/search`, {
+        const res = await axios.get(`https://creozone-backend.onrender.com/api/creation/search`, {
           params: { q: searchTerm }
         });
         setCreation(res.data.Allcreations);
@@ -63,7 +63,7 @@ function ExploreCreations({cat=''}) {
     const fetchByCategory = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8080/api/creation/categorycreations/${selectedCategory}`);
+        const res = await axios.get(`https://creozone-backend.onrender.com/api/creation/categorycreations/${selectedCategory}`);
         setCreation(res.data.creations);
       } catch (err) {
         console.error('Error fetching by category:', err);
@@ -76,7 +76,7 @@ function ExploreCreations({cat=''}) {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8080/api/creation/thumbnail`);
+        const res = await axios.get(`https://creozone-backend.onrender.com/api/creation/thumbnail`);
         setCreation(res.data.thumbnails);
       } catch (err) {
         console.error('Error fetching thumbnails:', err);

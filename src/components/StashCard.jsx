@@ -32,7 +32,7 @@ const StashCard = ({ thumb, title, desc, noCrea, StyleChain }) => {
               {StyleChain.map((item, i) => (
                 <img
                   key={i}
-                  src={item?.designer?.avatar}
+                  src={item?.designer?.avatar ? item.designer.avatar : (item?.designer?.sex === 'male' ? '/male.png' : '/female.png')}
                   alt={item?.designer?.username || "Designer"}
                   title={item?.designer?.username}
                   className="w-8 h-8 rounded-full border-2 border-white"

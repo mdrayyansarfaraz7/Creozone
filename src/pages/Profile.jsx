@@ -29,7 +29,7 @@ function Profile() {
     const Details = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:8080/api/user/${username}`);
+        const res = await axios.get(`https://creozone-backend.onrender.com/api/user/${username}`);
         setProfileData(res.data.userDetails);
         console.log(res.data.userDetails);
       } catch (e) {
