@@ -13,9 +13,23 @@ export const useAuthStore = create((set) => ({
 
         try {
             const response = await axios.post('https://creozone-backend.onrender.com/api/auth/signup', { password, email, username }, { withCredentials: true })
-            set({ user: response.data.user, isAuthenticated: true, isLoading: false })
+            set({ isLoading: false })
+            return response.data;
         } catch (error) {
-            set({ error: error.response.data.message || 'Something went Wrong in Signing up', isLoading: false })
+            set({ error: error.response?.data?.message || 'Something went Wrong in Signing up', isLoading: false })
+            throw error;
+        }
+    },
+
+    verifyOtp: async ({ email, otp }) => {
+        set({ isLoading: true, error: null })
+
+        try {
+            const response = await axios.post('https://creozone-backend.onrender.com/api/auth/verify-otp', { email, otp }, { withCredentials: true })
+            set({ user: response.data.user, isAuthenticated: true, isLoading: false })
+            return response.data;
+        } catch (error) {
+            set({ error: error.response?.data?.message || 'Something went wrong verifying OTP', isLoading: false })
             throw error;
         }
     },
@@ -24,7 +38,7 @@ checkAuth: async () => {
   set({ isCheckingAuth: true, error: null });
 
   try {
-    console.log("coming to checkAuth!");
+    
     const res = await axios.get('https://creozone-backend.onrender.com/api/auth/verify', {
       withCredentials: true,
     });
@@ -50,7 +64,7 @@ checkAuth: async () => {
         user: null,
         isAuthenticated: false,
         isCheckingAuth: false,
-        error: "Failed to check authentication.",
+        error: null,
       });
     }
   }
@@ -62,7 +76,7 @@ checkAuth: async () => {
 
         try {
             const response = await axios.post('https://creozone-backend.onrender.com/api/auth/login', { password, email }, { withCredentials: true })
-            console.log(response);
+            
             set({ user: response.data.user, isAuthenticated: true, isLoading: false })
         } catch (error) {
             set({ error: error.response.data.message || 'Something went Wrong while Login ', isLoading: false })
@@ -84,7 +98,7 @@ checkAuth: async () => {
             });
 
         } catch (error) {
-            console.log("Logout error:", error);
+            
             set({
                 error: error.response?.data?.message || "Logout failed",
                 isAuthenticated: false,

@@ -19,9 +19,9 @@ function AllStyleChain() {
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
 
-  console.log(user);
+  
   const isOwner = user ? true : false;
-  console.log(isOwner);
+  
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {
@@ -35,7 +35,7 @@ function AllStyleChain() {
     };
     fetchStashDetails();
   }, [username]);
-  console.log(stash);
+  
   return (
     <div className="flex gap-2">
       <Sidebar username={user?.username || username} isOwner={isOwner} />
@@ -68,7 +68,7 @@ function AllStyleChain() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {stash.map((s) => {
               const creatorId = s.styleChain.find((entry) => entry.role === 'creator')?.designer?._id;
-              console.log(creatorId);
+              
               const creatorCreations = s.creations?.filter(c => c.author === creatorId) || [];
               const contributorCreations = s.creations?.filter(c => c.author !== creatorId) || [];
 

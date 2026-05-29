@@ -6,8 +6,10 @@ import { Loader } from 'lucide-react';
 
 
 function SignUp() {
-  const { signup, isLoading, error,isAuthenticated,checkAuth } = useAuthStore();
-  console.log(isAuthenticated);
+  const { signup, verifyOtp, isLoading, error,isAuthenticated,checkAuth } = useAuthStore();
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  
 
     useEffect(()=>{
       checkAuth();
@@ -33,11 +35,16 @@ function SignUp() {
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signup(formData);
-      naviagte(`/profile/${formData.username}`);
+      if (!otpSent) {
+        await signup(formData);
+        setOtpSent(true);
+      } else {
+        await verifyOtp({ email: formData.email, otp });
+        naviagte(`/profile/${formData.username}`);
+      }
     }
     catch (err) {
-      console.log(err);
+      
     }
   }
 
@@ -51,43 +58,62 @@ function SignUp() {
         className="absolute top-4 left-4 h-10 z-10"
       />
       <div className="w-full lg:w-[40%] h-full bg-white flex flex-col justify-center items-center px-8 lg:px-16">
-        <h2 className="text-3xl lg:text-4xl text-rose-600 font-semibold mb-6 mt-16 lg:mt-0">Create account</h2>
+        <h2 className="text-3xl lg:text-4xl text-rose-600 font-semibold mb-6 mt-16 lg:mt-0">
+          {otpSent ? 'Verify your email' : 'Create account'}
+        </h2>
 
         <form className="w-full space-y-4" onSubmit={handelSubmit}>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">Username *</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handelChange}
-              placeholder="Enter your first name"
-              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
-          </div>
+          {!otpSent ? (
+            <>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-rose-600">Username *</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handelChange}
+                  placeholder="Enter your first name"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">Email *</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handelChange}
-              placeholder="Enter your email"
-              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
-          </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-rose-600">Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handelChange}
+                  placeholder="Enter your email"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+              </div>
 
-
-          <div>
-            <label className="block text-sm font-medium mb-1 text-rose-600">Password *</label>
-            <input
-              name="password"
-              value={formData.password}
-              onChange={handelChange}
-              type="password"
-              placeholder="Create a password"
-              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
-            <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters.</p>
-          </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-rose-600">Password *</label>
+                <input
+                  name="password"
+                  value={formData.password}
+                  onChange={handelChange}
+                  type="password"
+                  placeholder="Create a password"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+                <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters.</p>
+              </div>
+            </>
+          ) : (
+            <div>
+              <p className="text-sm text-gray-600 mb-4">
+                We've sent a verification code to <strong>{formData.email}</strong>.
+              </p>
+              <label className="block text-sm font-medium mb-1 text-rose-600">Verification Code *</label>
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter 6-digit OTP"
+                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
+          )}
 
           <button
             type="submit"
@@ -96,7 +122,7 @@ function SignUp() {
             {isLoading ? (
               <Loader className="w-5 h-5 animate-spin" />
             ) : (
-              <>Create Account</>
+              <>{otpSent ? 'Verify & Create Account' : 'Create Account'}</>
             )}
           </button>
 

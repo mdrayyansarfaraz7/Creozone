@@ -27,7 +27,7 @@ function AllCreatedOutlooks() {
   }, [username]);
 
   const myOutlooks = userDetails.outlooks || [];
-  console.log(myOutlooks);
+  
 
   return (
     <div className="flex font-lato text-gray-800">

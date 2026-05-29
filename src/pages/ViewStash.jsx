@@ -38,7 +38,7 @@ function ViewStash() {
     formData.append('tags', tags);
     formData.append('category', category);
     formData.append('userId', user._id);
-    console.log(selectedFile);
+    
     try {
       setSubmitting(true);
       await axios.post(`https://creozone-backend.onrender.com/api/creation/create/${id}`, formData, { withCredentials: true }, {
@@ -65,7 +65,7 @@ function ViewStash() {
     };
     fetchStashDetails();
   }, [id]);
-  console.log(currentCreation);
+  
 
   if (loading) {
     return (

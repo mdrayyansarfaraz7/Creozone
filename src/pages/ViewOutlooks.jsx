@@ -69,7 +69,7 @@ function ViewOutlooks() {
     } catch (error) {
       setAccepting(false);
       alert("something went wrong while accepting");
-      console.log(error);
+      
     }
   }
 

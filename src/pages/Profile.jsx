@@ -18,7 +18,7 @@ function Profile() {
     checkAuth();
   }, [checkAuth])
 
-  console.log(user);
+  
   const { username } = useParams();
   const isOwner = username === user?.username;
 
@@ -31,9 +31,9 @@ function Profile() {
         setLoading(true);
         const res = await axios.get(`https://creozone-backend.onrender.com/api/user/${username}`);
         setProfileData(res.data.userDetails);
-        console.log(res.data.userDetails);
+        
       } catch (e) {
-        console.log(e);
+        
         setProfileData(null);
       } finally {
         setLoading(false);

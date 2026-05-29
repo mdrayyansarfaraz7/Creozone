@@ -21,7 +21,7 @@ function CreateStashForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("Loading: ",loading);
+    
     try {
       const form = new FormData();
       form.append('title', title);
@@ -29,7 +29,7 @@ function CreateStashForm() {
       form.append('category', category);
       form.append('thumbnail', thumbnail);
       form.append('tags', tags);
-      console.log(form.images);
+      
 
       const response=await axios.post(`https://creozone-backend.onrender.com/api/stash/create-stash/${user._id}`, form, {
         withCredentials: true,
@@ -37,13 +37,13 @@ function CreateStashForm() {
           "Content-Type": "multipart/form-data"
         }
       });
-      console.log(response.data);
+      
 
       setLoading(false);
       navigate(`/stash/${response.data.stash._id}`);
 
     } catch (error) {
-      console.log(error);
+      
       setLoading(false);
     }
   }

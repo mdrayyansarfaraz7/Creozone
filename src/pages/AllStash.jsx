@@ -17,10 +17,10 @@ function AllStash() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-  console.log(user);
+  
   const isOwner = user?true:false;
 
-  console.log(isOwner);
+  
   useEffect(() => {
     const fetchStashDetails = async () => {
       try {

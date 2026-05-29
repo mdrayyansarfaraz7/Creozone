@@ -102,7 +102,7 @@ function ViewCreation() {
 
         fetchCreationDetails();
     }, [id]);
-    console.log(creation);
+    
 
     const handleImageLoad = () => {
         if (!imgRef.current) return;
@@ -123,7 +123,7 @@ function ViewCreation() {
                 likes: [...prev.likes, user._id]
             }));
         } catch (error) {
-            console.log("error", error);
+            
         }
     }
 
@@ -135,7 +135,7 @@ function ViewCreation() {
                 likes: prev.likes.filter(id => id !== user._id)
             }));
         } catch (error) {
-            console.log("error", error);
+            
         }
     }
     if (loading) {

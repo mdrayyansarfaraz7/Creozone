@@ -26,7 +26,7 @@ const Sidebar = ({ isOwner, username }) => {
 
             navigate('/');
         } catch (err) {
-            console.log(err);
+            
         }
     };
     const navItems = [
